@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-item',
@@ -7,6 +8,14 @@ import { Component } from '@angular/core';
   templateUrl: './item.component.html',
   styleUrl: './item.component.css'
 })
-export class ItemComponent {
+export class ItemComponent implements OnInit{
+
+  private _route = inject(ActivatedRoute);
+
+  public itemId: string | null = null;
+
+  ngOnInit(): void {
+    this.itemId = this._route.snapshot.paramMap.get('itemId');
+  }
 
 }
