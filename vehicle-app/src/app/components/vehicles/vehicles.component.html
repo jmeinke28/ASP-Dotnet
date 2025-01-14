@@ -1,0 +1,7 @@
+<div class="container mx-auto p-4">
+    <div class="grid grid-cols-3 gap-4">
+        <div *ngFor="let singleVehicle of vehicles">
+            <app-vehicle-card [vehicle]="singleVehicle"></app-vehicle-card>
+        </div>
+    </div>
+</div>
