@@ -11,7 +11,7 @@ describe('VehicleCardComponent', () => {
       imports: [VehicleCardComponent]
     })
     .compileComponents();
-    
+
     fixture = TestBed.createComponent(VehicleCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

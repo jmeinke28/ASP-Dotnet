@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { VEHICLES } from '../mock-db/vehicles';
 import { Vehicle } from '../models/vehicle';
+import { VEHICLES } from '../mock-db/vehicles';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +17,9 @@ export class VehicleService {
     const vehicle: Vehicle | undefined = VEHICLES.find(
       (vehicle) => vehicle.id === vehicleId
     );
+
     return vehicle ? vehicle : null;
   }
+
+
 }
