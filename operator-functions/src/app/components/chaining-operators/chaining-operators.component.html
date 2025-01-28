@@ -1,0 +1,182 @@
+<div class="container w-11/12 mx-auto px-4 mt-12 mb-80">
+  <div class="mt-8">
+    <h2 class="text-6xl font-bold text-red-500 mb-8 text-left sm:text-center">
+      Chaining Operators<span class="text-orange-900"></span>
+    </h2>
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 mb-6">
+    <div class="w-full">
+      <h2 class="text-3xl font-semibold text-gray-800">Initial Data</h2>
+      <ul *ngIf="data" class="flex flex-wrap gap-4 justify-center">
+        <li
+          *ngFor="let elem of data"
+          class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+        >
+          {{ elem }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <h2 class="text-6xl font-bold text-gray-800 mb-8 text-left sm:text-center">
+    <div class="bg-gray-100 shadow rounded-lg p-4 mb-6">
+      <span class="text-orange-500">tap()</span><span> -> </span>
+      <span class="text-red-500">map()</span><span> -> </span
+      ><span class="text-purple-500">filter()</span>
+    </div>
+  </h2>
+  <div class="flex items-center flex-col my-12">
+    <button
+      (click)="runChain()"
+      class="bg-blue-500 cursor-pointer text-white text-4xl font-semibold px-8 py-6 rounded-lg shadow hover:bg-blue-600 transition duration-300"
+    >
+      Run Chain
+    </button>
+
+    <div class="bg-gray-100 rounded-lg mt-6 shadow p-6 max-w-3xl w-full">
+      <pre
+        class="text-left text-xl py-4 text-white bg-black whitespace-pre-wrap overflow-y-auto"
+      >
+          
+      this._dataService.dataStream$.pipe(
+        tap((elem) => &lbrace;
+          this.tapInitalData.push(elem);
+    
+          /**
+           * Uncomment the return to see 
+           * that though no error will result
+           * from returning from tap(), the 
+           * value returned will always be
+           * ignored downstream.
+           */
+          // return elem * 4;
+        &rbrace;),
+        map((elem) => &lbrace;    
+          return elem * 2;
+        &rbrace;),
+        filter((elem) => &lbrace;        
+          return elem % 2 == 0;
+        &rbrace;)
+      );
+            </pre
+      >
+    </div>
+  </div>
+  <div
+    class="bg-orange-500 mt-16 font-semibold text-white text-6xl shadow rounded-lg p-4 mb-6"
+  >
+    tap() Initial Data
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 mt-6 mb-6">
+    <div class="w-full">
+      <!-- <h2 class="text-3xl font-semibold text-gray-800">DataA After</h2> -->
+      <ul *ngIf="tapInitalData" class="flex flex-wrap gap-4 justify-center">
+        <li
+          *ngFor="let elem of tapInitalData"
+          class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+        >
+          {{ elem }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-gray-100 rounded-lg mt-6 shadow p-6 max-w-3xl w-full">
+    <pre
+      class="text-left text-xl py-4 text-white bg-black whitespace-pre-wrap max-h-96 overflow-y-auto"
+    >
+      
+        tap((elem) => &lbrace;
+          this.tapInitalData.push(elem);
+    
+          /**
+           * Uncomment the return to see 
+           * that though no error will result
+           * from returning from tap(), the 
+           * value returned will always be
+           * ignored downstream.
+           */
+          // return elem * 4;
+        &rbrace;),
+        </pre
+    >
+  </div>
+
+  <div
+    class="bg-red-500 mt-16 font-semibold text-white text-6xl shadow rounded-lg p-4 mb-6"
+  >
+    map() Initial Data
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 mt-6 mb-6">
+    <div class="w-full">
+      <!-- <h2 class="text-3xl font-semibold text-gray-800">DataA After</h2> -->
+      <ul *ngIf="mapInitalData" class="flex flex-wrap gap-4 justify-center">
+        <li
+          *ngFor="let elem of mapInitalData"
+          class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+        >
+          {{ elem }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-gray-100 rounded-lg mt-6 shadow p-6 max-w-3xl w-full">
+    <pre
+      class="text-left text-xl py-4 text-white bg-black whitespace-pre-wrap max-h-96 overflow-y-auto"
+    >
+      
+    map((elem) => &lbrace;    
+        return elem * 2;
+    &rbrace;),
+        </pre
+    >
+  </div>
+
+  <div
+    class="bg-purple-500 mt-16 font-semibold text-white text-6xl shadow rounded-lg p-4 mb-6"
+  >
+    filter() Initial Data
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 mt-6 mb-6">
+    <div class="w-full">
+      <!-- <h2 class="text-3xl font-semibold text-gray-800">DataA After</h2> -->
+      <ul *ngIf="filterInitalData" class="flex flex-wrap gap-4 justify-center">
+        <li
+          *ngFor="let elem of filterInitalData"
+          class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+        >
+          {{ elem }}
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="bg-gray-100 rounded-lg mt-6 shadow p-6 max-w-3xl w-full">
+    <pre
+      class="text-left text-xl py-4 text-white bg-black whitespace-pre-wrap max-h-96 overflow-y-auto"
+    >
+      
+    filter((elem) => &lbrace;        
+        return elem % 2 == 0;
+     &rbrace;)
+    );
+        </pre
+    >
+  </div>
+
+  <div
+    class="bg-green-500 mt-16 font-semibold text-white text-6xl shadow rounded-lg p-4 mb-6"
+  >
+    Final Data
+  </div>
+  <div class="bg-white shadow rounded-lg p-4 mt-6 mb-6">
+    <div class="w-full">
+      <!-- <h2 class="text-3xl font-semibold text-gray-800">DataA After</h2> -->
+      <ul *ngIf="filterInitalData" class="flex flex-wrap gap-4 justify-center">
+        <li
+          *ngFor="let elem of filterInitalData"
+          class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+        >
+          {{ elem }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

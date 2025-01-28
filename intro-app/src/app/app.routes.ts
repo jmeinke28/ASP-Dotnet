@@ -5,8 +5,9 @@ import { ItemComponent } from './components/item/item.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
 export const routes: Routes = [
-    {path: '', component: HomeComponent},
+    {path:'', component: HomeComponent},
     {path: 'about', component: AboutComponent},
     {path: 'item/:itemId', component: ItemComponent},
-    {path: '**', component: PageNotFoundComponent}
+    {path: '**', component: PageNotFoundComponent},
+   
 ];

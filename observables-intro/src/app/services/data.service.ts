@@ -1,13 +1,21 @@
-import { Injectable } from '@angular/core';
-import { filter, from, map, Observable, of, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { filter, from, interval, map, Observable, of, take, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  public dataStream$: Observable<number> = from([10, 11, 12, 13, 14, 15, 16]);
+  private _data: number[] = [10, 11, 12, 13, 14, 15, 16];
 
-  public data$: Observable<number[]> = of([10, 11, 12, 14, 15, 16]);
+  // Outputting data as a stream, one element at a time,
+  // rather than the entire array at once.
+  public dataStream$: Observable<number> = interval(500).pipe(
+    map((index) => this._data[index]),
+    take(7)
+  );
+
+  public data$: Observable<number[]> = of(this._data);
 
   constructor() {}
 
@@ -23,20 +31,12 @@ export class DataService {
     return this.dataStream$.pipe(
       tap((val) => {
         console.log('tap initial:', val);
-        /**
-         * Uncomment the below to see how even if we return from tap() the return
-         * value from tap() is ignored because tap() is meant to *only* perform side-effects,
-         * and thus anything returned from it is ignored.
-         */
-        // const retVal = val * 100;
-        // console.log('tap retVal:', retVal);
-        // return retVal;
       }),
       map((val) => {
         console.log('---------------------------------');
         console.log('map initial:', val);
         const retVal = val + 2;
-        console.log('map retVal:', retVal);
+        console.log('map return value:', retVal);
 
         return retVal;
       }),

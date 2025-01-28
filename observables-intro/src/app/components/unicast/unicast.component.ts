@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Observer,
+  Subject,
+  Subscriber,
+  Subscription,
+} from 'rxjs';
 
 @Component({
   selector: 'app-unicast',
@@ -10,7 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class UnicastComponent implements OnInit {
   ngOnInit(): void {
-    const unicastObservable$ = new Observable((subscriber) => {
+    const unicastObservable$ = new Observable((subscriber: Subscriber<any>) => {
       // Simulate an asynchronous operation
       setTimeout(() => {
         // Emit a random value
@@ -25,5 +32,7 @@ export class UnicastComponent implements OnInit {
     unicastObservable$.subscribe((value) =>
       console.log(`Observable Subscriber 2: ${value}`)
     );
+
+    
   }
 }
