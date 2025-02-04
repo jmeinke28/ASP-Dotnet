@@ -4,10 +4,12 @@ using Server.Models;
 
 namespace Server.Data;
 
-public class ApplicationDbContext : IdentityDbContext {
+public class ApplicationDbContext : IdentityDbContext
+{
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options) {
+        : base(options)
+    {
     }
 
-    public DbSet<Project> Product { get; set; }
+    public DbSet<Product> Products { get; set; }
 }

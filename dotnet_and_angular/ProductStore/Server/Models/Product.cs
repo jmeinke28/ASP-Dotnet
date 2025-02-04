@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Server.Models;
 
-public class Project {
+public class Product {
     [Key]
     public int Id { get; set; }
 
@@ -14,5 +14,5 @@ public class Project {
     [Required]
     public required decimal Price { get; set; }
 
-    public bool IsAvailable {get; set; }
+    public bool IsAvailable { get; set; }
 }
