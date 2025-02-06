@@ -3,10 +3,11 @@ import { ProductService } from '../../services/product.service';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product';
+import { ProductCardComponent } from "../product-card/product-card.component";
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule],
+  imports: [CommonModule, ProductCardComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })

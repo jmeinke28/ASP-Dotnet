@@ -24,5 +24,17 @@ namespace Server.Controllers
             return Ok(await _context.Products.ToListAsync());
         }
 
+        //localhost:5000/api/products/8
+        [HttpGet("{productId}")]
+        public async Task<ActionResult<Product>> GetProductById(int productId) {
+            Product? product = await _context.Products.FindAsync(productId);
+
+            if(null == product) {
+                return NotFound($"Product with ID {productId} was not found.");
+            }
+
+            return Ok(product);
+        }
+
     }
 }

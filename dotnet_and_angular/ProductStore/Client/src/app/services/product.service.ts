@@ -12,10 +12,27 @@ export class ProductService {
   private _productListSubject: BehaviorSubject<Product[]> =
     new BehaviorSubject<Product[]>([] as Product[]);
 
+  private _productSubject: BehaviorSubject<Product | null> =
+    new BehaviorSubject<Product | null>(null);
+
+
   public productList$: Observable<Product[]> = 
     this._productListSubject.asObservable();
 
+  public product$: Observable<Product | null> = 
+    this._productSubject.asObservable();
+
   constructor() { }
+
+  // These two get methods allow us to peer into the subject without having to subscribe
+  // to an Observable
+  public get productList(): Product[] {
+    return this._productListSubject.value;    
+  }  
+
+  public get product(): Product | null {
+    return this._productSubject.value;
+  }
 
   public getAllProducts(): Observable<Product[]> {    
 
@@ -27,4 +44,17 @@ export class ProductService {
       })
     );
   }
+
+  public getProductById(productId: number): Observable<Product> {
+    return this._http.get<Product>(`/api/products/${productId}`).pipe(
+      tap((product) => {
+        this._productSubject.next(product);
+      })
+    );
+  }
+
+  public select(product: Product | null): void {
+    this._productSubject.next(product);
+  }
+
 }
