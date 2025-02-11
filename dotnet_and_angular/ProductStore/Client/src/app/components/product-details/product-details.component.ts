@@ -13,7 +13,9 @@ import { Product } from '../../models/product';
 })
 export class ProductDetailsComponent implements OnInit {
   private _route = inject(ActivatedRoute);
+
   private _productService = inject(ProductService);
+  
   public product$: Observable<Product | null> =
     this._productService.product$;
 
