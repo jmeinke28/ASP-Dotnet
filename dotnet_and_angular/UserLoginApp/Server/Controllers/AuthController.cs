@@ -4,27 +4,25 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Server.Models;
 
-namespace Server.Controllers
-{
+namespace Server.Controllers {
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
-    {
+    public class AuthController : ControllerBase {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
 
         public AuthController(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager
-        ){
+        ) {
             _signInManager = signInManager;
             _userManager = userManager;
         }
 
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register([FromBody] EmailLoginDetails details){
+        public async Task<ActionResult<UserDto>> Register([FromBody] EmailLoginDetails details) {
             // Create IdentityUser instance
             IdentityUser user = new IdentityUser { UserName = details.Email, Email = details.Email };
 
@@ -33,15 +31,25 @@ namespace Server.Controllers
                 .CreateAsync(user, details.Password)
                 .ConfigureAwait(false);
 
-            if(!result.Succeeded) {
+            if (!result.Succeeded) {
                 List<string> errors = result.Errors
                     .Select(e => e.Description)
                     .ToList();
 
                 return BadRequest(new { errors });
             }
-            
+
             return Ok(new UserDto { Id = user.Id, UserName = user.UserName });
+        }
+
+        [AllowAnonymous]
+        [HttpGet("test")]
+        public async Task<ActionResult> Test() {
+            /**
+                Simple endpoint that can be used to see if your 
+                authenitcation system is working.
+            */
+            return Ok(new { message = "hello" });
         }
 
         [AllowAnonymous]
@@ -50,8 +58,8 @@ namespace Server.Controllers
             // Retrieve user
             IdentityUser? user = await _userManager
                 .FindByEmailAsync(details.Email);
-            
-            if(null == user) {
+
+            if (null == user) {
                 return BadRequest($"No user with username {details.Email}");
             }
 
@@ -60,7 +68,7 @@ namespace Server.Controllers
                 .PasswordSignInAsync(details.Email, details.Password, false, false)
                 .ConfigureAwait(false);
 
-            if(!result.Succeeded) {
+            if (!result.Succeeded) {
                 return Unauthorized();
             }
 
@@ -69,10 +77,10 @@ namespace Server.Controllers
         }
 
         [HttpPost("logout")]
-        public async Task<ActionResult> Logout(){
+        public async Task<ActionResult> Logout() {
             await _signInManager.SignOutAsync();
-            
-            return Ok(new { message = "Logged out successfully."} );
+
+            return Ok(new { message = "Logged out successfully." });
         }
 
     }
