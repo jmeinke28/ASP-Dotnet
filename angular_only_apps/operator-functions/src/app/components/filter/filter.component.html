@@ -1,0 +1,58 @@
+<div class="container w-11/12 mx-auto px-4 mt-12 mb-60">
+  <div class="mt-8">
+    <h2
+      class="text-6xl font-bold text-purple-500 mb-4 text-left sm:text-center"
+    >
+      filter()<span class="text-blue-600"></span>
+    </h2>
+    <div class="bg-white shadow rounded-lg p-4 mb-6">
+      <div class="w-full">
+        <h2 class="text-3xl font-semibold text-gray-800">Initial Data</h2>
+        <ul *ngIf="data" class="flex flex-wrap gap-4 justify-center">
+          <li
+            *ngFor="let elem of data"
+            class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+          >
+            {{ elem }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button
+      (click)="applyFilter()"
+      class="bg-blue-500 cursor-pointer text-white text-4xl font-semibold px-4 py-3 rounded-lg shadow hover:bg-blue-600 transition duration-300"
+    >
+      filter()
+    </button>
+    <div class="bg-gray-100 rounded-lg mt-6 shadow p-6 max-w-3xl w-full">
+      <div class="text-xl mb-4">
+        Note that the inner map() called on dataArr is the map() method on
+        arrays in JavaScript, not the RxJS map() function which is seen as the
+        argument to pipe().
+      </div>
+      <pre
+        class="text-left text-xl py-4 text-white bg-black whitespace-pre-wrap max-h-96 overflow-y-auto"
+      >
+        
+      this._dataService.dataStream$.pipe(
+        filter((elem) => elem % 2 === 0)
+      )
+          </pre
+      >
+    </div>
+
+    <div class="bg-white shadow rounded-lg p-4 mt-6 mb-6">
+      <div class="w-full">
+        <h2 class="text-3xl font-semibold text-gray-800">After Filtering</h2>
+        <ul *ngIf="filteredData" class="flex flex-wrap gap-4 justify-center">
+          <li
+            *ngFor="let elem of filteredData"
+            class="bg-blue-500 text-white text-2xl flex justify-center items-center w-12 h-12 rounded-full hover:bg-blue-700 transition-colors duration-300"
+          >
+            {{ elem }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
