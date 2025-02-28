@@ -14,6 +14,23 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
 
+
+/**
+    When a user is not authenticated any longer through an expired session/cookie, rather
+    than redirecting to the Dotnet login page, we will send down a 401 unauthorized response
+    for the frontend to handle.
+*/
+builder.Services.ConfigureApplicationCookie(options => {
+    options.Events.OnRedirectToLogin = context => {
+        if (context.Request.Path.StartsWithSegments("/api")) {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            return Task.CompletedTask;
+        }
+        context.Response.Redirect(context.RedirectUri);
+        return Task.CompletedTask;
+    };
+});
+
 // Use sessions for user authorization
 builder.Services.AddSession(options => {
     // Session expires after 30 minutes of inactivity
@@ -29,12 +46,9 @@ builder.Services.AddSession(options => {
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+if (app.Environment.IsDevelopment()) {
     app.UseMigrationsEndPoint();
-}
-else
-{
+} else {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();

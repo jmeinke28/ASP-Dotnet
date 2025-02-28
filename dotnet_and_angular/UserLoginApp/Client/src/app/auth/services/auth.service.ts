@@ -63,5 +63,13 @@ export class AuthService {
         this._userSubject.next(null);
       }));
   }
+  
+  public clearFrontendCredentials(): void {
+    // Remove user from local storage
+    localStorage.removeItem(this._userKey);
+
+    // Remove the user from the BehaviorSubject
+    this._userSubject.next(null);
+  }
 
 }
