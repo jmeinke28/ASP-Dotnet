@@ -1,0 +1,42 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dotnet_and_angular", "dotnet_and_angular", "{35628D71-2A5B-4DD3-676D-F065E3A5A100}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ProductStore", "ProductStore", "{654DD7AC-2488-F079-942F-A24D00217AFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "dotnet_and_angular\ProductStore\Server\Server.csproj", "{975DB6C7-E140-7F6F-9612-30CF3097A3AA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UserLoginApp", "UserLoginApp", "{63061FF7-1355-7C2E-1CA2-39A972DB2E61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "dotnet_and_angular\UserLoginApp\Server\Server.csproj", "{B7D8BD49-0719-582D-A8FA-ABFF56DCC54E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{975DB6C7-E140-7F6F-9612-30CF3097A3AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{975DB6C7-E140-7F6F-9612-30CF3097A3AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{975DB6C7-E140-7F6F-9612-30CF3097A3AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{975DB6C7-E140-7F6F-9612-30CF3097A3AA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B7D8BD49-0719-582D-A8FA-ABFF56DCC54E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7D8BD49-0719-582D-A8FA-ABFF56DCC54E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7D8BD49-0719-582D-A8FA-ABFF56DCC54E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7D8BD49-0719-582D-A8FA-ABFF56DCC54E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{654DD7AC-2488-F079-942F-A24D00217AFE} = {35628D71-2A5B-4DD3-676D-F065E3A5A100}
+		{975DB6C7-E140-7F6F-9612-30CF3097A3AA} = {654DD7AC-2488-F079-942F-A24D00217AFE}
+		{63061FF7-1355-7C2E-1CA2-39A972DB2E61} = {35628D71-2A5B-4DD3-676D-F065E3A5A100}
+		{B7D8BD49-0719-582D-A8FA-ABFF56DCC54E} = {63061FF7-1355-7C2E-1CA2-39A972DB2E61}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FFB121EC-0D18-4503-9395-DF57FED822AB}
+	EndGlobalSection
+EndGlobal
