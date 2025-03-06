@@ -5,9 +5,9 @@ import { PhoneListComponent } from './pages/phone-list/phone-list.component';
 import { PhoneDetailsComponent } from './pages/phone-details/phone-details.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'phones', component: PhoneListComponent },
-  { path: 'phones/:id', component: PhoneDetailsComponent },
+  { path: '', component: HomeComponent }, // Default route (Home page)
+  { path: 'phones', component: PhoneListComponent }, // Phone List page
+  { path: 'phones/:id', component: PhoneDetailsComponent }, // Phone Details page
 ];
 
 @NgModule({
