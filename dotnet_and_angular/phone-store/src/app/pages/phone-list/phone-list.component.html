@@ -1,0 +1,7 @@
+<h1>Phone List</h1>
+<ul>
+  <li *ngFor="let phone of phones">
+    {{ phone.brand }} {{ phone.model }} ({{ phone.releaseYear }})
+    <a [routerLink]="['/phones', phone.id]">View</a>
+  </li>
+</ul>

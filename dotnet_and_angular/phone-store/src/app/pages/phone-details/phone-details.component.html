@@ -1,0 +1,23 @@
+<div *ngIf="phone">
+    <h1>{{ phone.brand }} {{ phone.model }}</h1>
+    <p>Release Year: {{ phone.releaseYear }}</p>
+    <p>Operating System: {{ phone.operatingSystem }}</p>
+  
+    <button (click)="toggleEdit()">{{ isEditing ? 'Cancel' : 'Edit' }}</button>
+  
+    <div *ngIf="isEditing">
+      <label>Brand:</label>
+      <input [(ngModel)]="phone.brand" />
+  
+      <label>Model:</label>
+      <input [(ngModel)]="phone.model" />
+  
+      <label>Release Year:</label>
+      <input [(ngModel)]="phone.releaseYear" type="number" />
+  
+      <label>Operating System:</label>
+      <input [(ngModel)]="phone.operatingSystem" />
+  
+      <button (click)="saveChanges()">Save</button>
+    </div>
+  </div>
