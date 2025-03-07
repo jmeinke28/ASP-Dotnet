@@ -9,13 +9,13 @@ import { PhoneDetailsComponent } from './pages/phone-details/phone-details.compo
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
+    HomeComponent, // Ensure this is present
     PhoneListComponent,
     PhoneDetailsComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule // Add the routing module here
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
