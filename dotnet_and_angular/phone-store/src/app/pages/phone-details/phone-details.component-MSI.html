@@ -1,0 +1,46 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Phone Details</h2>
+    <div *ngIf="phone" class="bg-white p-6 rounded-lg shadow-md max-w-2xl mx-auto">
+      <div *ngIf="!isEditing">
+        <p class="text-gray-800 mb-4"><strong>Brand:</strong> {{ phone.brand }}</p>
+        <p class="text-gray-800 mb-4"><strong>Model:</strong> {{ phone.model }}</p>
+        <p class="text-gray-800 mb-4"><strong>Release Year:</strong> {{ phone.releaseYear }}</p>
+        <p class="text-gray-800 mb-6"><strong>Operating System:</strong> {{ phone.operatingSystem }}</p>
+        <button (click)="toggleEdit()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300">
+          Edit
+        </button>
+      </div>
+      <div *ngIf="isEditing">
+        <form (ngSubmit)="saveChanges()" class="space-y-4">
+          <div>
+            <label for="brand" class="block text-sm font-medium text-gray-700">Brand:</label>
+            <input id="brand" [(ngModel)]="phone.brand" name="brand" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="model" class="block text-sm font-medium text-gray-700">Model:</label>
+            <input id="model" [(ngModel)]="phone.model" name="model" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="releaseYear" class="block text-sm font-medium text-gray-700">Release Year:</label>
+            <input id="releaseYear" [(ngModel)]="phone.releaseYear" name="releaseYear" type="number" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div>
+            <label for="operatingSystem" class="block text-sm font-medium text-gray-700">Operating System:</label>
+            <input id="operatingSystem" [(ngModel)]="phone.operatingSystem" name="operatingSystem" required
+                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+          </div>
+          <div class="flex space-x-4">
+            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300">
+              Save
+            </button>
+            <button type="button" (click)="cancelEdit()" class="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300">
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
