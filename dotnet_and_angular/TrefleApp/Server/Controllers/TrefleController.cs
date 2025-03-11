@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TrefleApp.Server.Services;
 using TrefleApp.Server.Models.Trefle.Responses;
+using TrefleApp.Server.Models.Trefle.Dtos;
 
 namespace TrefleApp.Server.Controllers {
     // localhost/api/trefle
@@ -15,8 +16,8 @@ namespace TrefleApp.Server.Controllers {
         }
 
         [HttpGet("plants/{plantId}")]
-        public async Task<ActionResult<Plant>> GetPlantById(int plantId) {
-            Plant? plant = await _trefleService.GetPlantById(plantId);
+        public async Task<ActionResult<PlantDto>> GetPlantById(int plantId) {
+            PlantDto? plant = await _trefleService.GetPlantById(plantId);
 
             if(null == plant) {
                 return NotFound($"Plant with ID {plantId} not found.");
@@ -26,8 +27,8 @@ namespace TrefleApp.Server.Controllers {
         }
 
         [HttpGet("plants")]
-        public async Task<ActionResult<ICollection<Plant>>> GetPlants() {
-            ICollection<Plant>? plants = await _trefleService.GetPlants();
+        public async Task<ActionResult<ICollection<PlantDto>>> GetPlants() {
+            ICollection<PlantDto>? plants = await _trefleService.GetPlants();
 
             if(null == plants) {
                 return BadRequest("Expected list of plants but got null instead.");
