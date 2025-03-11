@@ -16,6 +16,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddSingleton<TrefleApiService>();
+builder.Services.AddSingleton<TrefleService>();
 
 var app = builder.Build();
 
