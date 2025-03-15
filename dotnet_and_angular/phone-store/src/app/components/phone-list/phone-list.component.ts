@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-phone-list',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, HttpClientModule],
   templateUrl: './phone-list.component.html',
-  styleUrl: './phone-list.component.css'
+  styleUrls: ['./phone-list.component.css']
 })
+
 export class PhoneListComponent {
 
 }
