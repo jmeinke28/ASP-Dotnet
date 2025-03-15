@@ -1,0 +1,17 @@
+
+<div *ngIf="phone" class="w-full">
+  <div class="text-center py-10">
+    <h1 class="text-5xl font-bold my-4">
+      {{ phone.brand }} {{ phone.model }}
+    </h1>
+    <h2 class="text-3xl">
+      <span class="font-bold">Release Year:</span> {{ phone.releaseYear }}
+    </h2>
+    <h2 class="text-2xl">
+      <span class="font-bold">ID:</span> {{ phone.id }}
+    </h2>
+    <h3 class="text-xl">
+      <span class="font-bold">OS</span> {{ phone.operatingSystem }}
+    </h3>
+  </div>
+</div>
