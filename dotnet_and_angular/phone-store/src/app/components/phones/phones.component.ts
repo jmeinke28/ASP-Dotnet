@@ -3,10 +3,11 @@ import { PhoneDbService } from '../../service/phone-db.service';
 import { Phone } from '../../models/phone';
 import { PhoneCardComponent } from "../phone-card/phone-card.component";
 import { CommonModule, NgFor } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-phones',
-  imports: [ NgFor ,PhoneCardComponent],
+  imports: [ NgFor ,PhoneCardComponent, RouterModule],
   templateUrl: './phones.component.html',
   styleUrl: './phones.component.css'
 })
