@@ -7,13 +7,15 @@
       {{ phone.brand }} {{ phone.model }} {{ phone.id}}
     </h3>
     <p class="text-2xl mb-4">{{ phone.operatingSystem }}</p>
-    <button
-      class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 mt-4"
-      (click)="select(phone)"
-    >
-    <!-- (click) = onCLick -->
-      View
-    </button>
+    <div class="flex gap-2">
+      <button
+        class="bg-blue-500 text-white px-4 py-2 rounded shadow hover:bg-blue-600 mt-4"
+        (click)="select(phone)"
+      >
+        View
+      </button>
+
+    </div>
   </div>
 </div>
 

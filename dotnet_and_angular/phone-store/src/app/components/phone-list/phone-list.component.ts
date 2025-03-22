@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
-import { PHONES } from '../../mock-db/phones'; // Adjust the path based on where phones.ts is located
+import { Component, inject } from '@angular/core';
+import { Phone } from '../../models/phone';
+import { PhoneDbService } from '../../service/phone-db.service';
 
 @Component({
   selector: 'app-phone-list',
-  standalone: true,
-  imports: [CommonModule, HttpClientModule, RouterModule],
+  imports: [],
   templateUrl: './phone-list.component.html',
-  styleUrls: ['./phone-list.component.css']
+  styleUrl: './phone-list.component.css'
 })
 export class PhoneListComponent {
-  phones = Object.values(PHONES); // Convert the object into an array for easier iteration
+  private _phoneDb = inject(PhoneDbService);
+
+  public phones: Phone[] = [] as Phone[];
+
+  ngOnInit(): void {
+    this._phoneDb.loadDb().subscribe((db)=>{
+      this.phones = Object.values(db);
+    })
+  }
 }

@@ -1,12 +1,12 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PhoneCardComponent } from '../phone-card/phone-card.component';
-import { NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { PhoneDbService } from '../../service/phone-db.service';
 import { Phone } from '../../models/phone';
 
 @Component({
   selector: 'app-phone',
-  imports: [PhoneCardComponent, NgFor],
+  imports: [PhoneCardComponent, CommonModule],
   templateUrl: './phone.component.html',
   styleUrl: './phone.component.css'
 })
