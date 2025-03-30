@@ -10,12 +10,12 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [NgIf, FormsModule],
   templateUrl: './phone-details.component.html',
-  styleUrl: './phone-details.component.css'
+  styleUrls: ['./phone-details.component.css']
 })
 export class PhoneDetailsComponent implements OnInit {
 
   public phone: Phone | null = null;
-  public isEditing: boolean = false;  // Property to track edit mode
+  public isEditing: boolean = false; 
 
   private _route = inject(ActivatedRoute);
   private _phoneDbService = inject(PhoneDbService);
@@ -37,13 +37,18 @@ export class PhoneDetailsComponent implements OnInit {
     }
   }
 
-  public toggleEditMode() {
+  public toggleEditMode(): void {
     this.isEditing = !this.isEditing;
   }
 
   public savePhone(): void {
     if (this.phone) {
       const success = this._phoneDbService.updatePhone(this.phone);
+      if (success) {
+        alert('Phone details saved successfully!');
+      } else {
+        alert('Failed to save phone details.');
+      }
       this.router.navigate([`/phones/${this.phone.id}`]);
     }
   }
