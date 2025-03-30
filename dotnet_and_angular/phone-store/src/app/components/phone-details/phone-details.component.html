@@ -19,15 +19,35 @@
   <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
     <div class="flex justify-center">
       <button *ngIf="!isEditing" (click)="toggleEditMode()"
-        class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">
+        class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">
         Edit Phone
       </button>
     </div>
+
     <div *ngIf="isEditing" class="mt-6">
-      <h1 class="text-3xl font-bold mb-6">Edit Phone</h1>
-      <div class="mt-6 flex justify-end space-x-3">
+      <h1 class="text-3xl font-bold mb-6 text-center">Edit Phone</h1>
+      <div class="mt-6">
+        <div>
+          <label for="brand" class="block font-medium">Brand</label>
+          <input id="brand" [(ngModel)]="phone.brand" type="text" class="w-full p-2 mt-2 border rounded" />
+        </div>
+        <div class="mt-4">
+          <label for="model" class="block font-medium">Model</label>
+          <input id="model" [(ngModel)]="phone.model" type="text" class="w-full p-2 mt-2 border rounded" />
+        </div>
+        <div class="mt-4">
+          <label for="releaseYear" class="block font-medium">Release Year</label>
+          <input id="releaseYear" [(ngModel)]="phone.releaseYear" type="number" class="w-full p-2 mt-2 border rounded" />
+        </div>
+        <div class="mt-4">
+          <label for="operatingSystem" class="block font-medium">Operating System</label>
+          <input id="operatingSystem" [(ngModel)]="phone.operatingSystem" type="text" class="w-full p-2 mt-2 border rounded" />
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-center">
         <button (click)="savePhone()"
-          class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600">
+          class="px-4 py-2 bg-blue-500 text-white rounded-lg shadow hover:bg-blue-600 transition-all duration-300 transform hover:scale-105">
           Save Changes
         </button>
       </div>

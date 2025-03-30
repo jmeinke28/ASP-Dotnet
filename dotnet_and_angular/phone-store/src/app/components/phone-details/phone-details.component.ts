@@ -3,11 +3,12 @@ import { PhoneDbService } from '../../service/phone-db.service';
 import { Phone } from '../../models/phone';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgIf } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-phone-details',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, FormsModule],
   templateUrl: './phone-details.component.html',
   styleUrl: './phone-details.component.css'
 })
