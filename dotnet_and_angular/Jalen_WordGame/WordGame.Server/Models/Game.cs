@@ -20,7 +20,7 @@ public class Game
     [Required]
     public string Target { get; set; }
 
-    public string Guesses { get; set; }
+    public ICollection<string> Guesses { get; set; } = new List<string>();
 
     [Required]
     public string View { get; set; }
