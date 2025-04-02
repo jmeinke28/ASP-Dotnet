@@ -9,21 +9,21 @@ public class Game
     public int Id { get; set; }
 
     [Required]
-    public string UserId { get; set; }
+    public string? UserId { get; set; }
 
     [ForeignKey(nameof(UserId))]
-    public ApplicationUser User { get; set; }
+    public ApplicationUser? User { get; set; }
 
     [Required]
     public string Status { get; set; } = "Unfinished";
 
     [Required]
-    public string Target { get; set; }
+    public string? Target { get; set; }
 
     public ICollection<string> Guesses { get; set; } = new List<string>();
 
     [Required]
-    public string View { get; set; }
+    public string? View { get; set; }
 
     [Required]
     public int RemainingGuesses { get; set; } = 8;

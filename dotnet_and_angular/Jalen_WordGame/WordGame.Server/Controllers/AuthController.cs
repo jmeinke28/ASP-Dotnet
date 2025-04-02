@@ -27,7 +27,6 @@ namespace WordGame.Server.Controllers
             _configuration = configuration;
         }
 
-        // Register Endpoint: Registers a new user
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] EmailLoginDetails loginDetails)
         {
@@ -42,7 +41,6 @@ namespace WordGame.Server.Controllers
             return BadRequest(result.Errors);
         }
 
-        // Login Endpoint: Authenticates and logs in a user, returns a JWT token
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
@@ -76,7 +74,6 @@ namespace WordGame.Server.Controllers
             return Unauthorized(new { Message = "Invalid credentials." });
         }
 
-        // Logout Endpoint: Logs out the current user
         [HttpPost("logout")]
         [Authorize]
         public async Task<IActionResult> Logout()

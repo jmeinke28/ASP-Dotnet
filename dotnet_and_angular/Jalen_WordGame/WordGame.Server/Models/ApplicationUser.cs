@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using WordGame.Models;
 
 namespace WordGame.Models;
 

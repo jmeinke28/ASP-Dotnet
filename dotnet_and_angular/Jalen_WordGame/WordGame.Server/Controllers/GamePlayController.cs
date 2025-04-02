@@ -11,7 +11,7 @@ namespace WordGame.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]  // Ensures only authenticated users can access the endpoints
+    [Authorize]
     public class GamePlayController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -23,7 +23,6 @@ namespace WordGame.Server.Controllers
             _context = context;
         }
 
-        // Get All Games for the authenticated user
         [HttpGet("games")]
         public async Task<IActionResult> GetAllGames()
         {
@@ -44,7 +43,6 @@ namespace WordGame.Server.Controllers
             return Ok(gameDtos);
         }
 
-        // Get a single game by ID
         [HttpGet("games/{gameId}")]
         public async Task<IActionResult> GetGame(int gameId)
         {
@@ -70,13 +68,11 @@ namespace WordGame.Server.Controllers
             return Ok(gameDto);
         }
 
-        // Create a new game for the authenticated user
         [HttpPost("games")]
         public async Task<IActionResult> CreateGame()
         {
             var userId = _userManager.GetUserId(User);
 
-            // Sample random word selection for game target (you can modify to get from a database or a file)
             string[] words = new string[] { "apple", "banana", "cherry", "grape", "orange" };
             var random = new Random();
             string target = words[random.Next(words.Length)];
@@ -106,7 +102,6 @@ namespace WordGame.Server.Controllers
             return Ok(gameDto);
         }
 
-        // Make a guess for a specific game
         [HttpPost("games/{gameId}/guesses")]
         public async Task<IActionResult> MakeGuess(int gameId, [FromQuery] string guess)
         {
@@ -125,7 +120,6 @@ namespace WordGame.Server.Controllers
                 return NotFound(new { Message = "Game not found or does not belong to the user." });
             }
 
-            // Check if guess is correct and update the game view
             if (game.Target.Contains(guess))
             {
                 var newView = game.View.ToCharArray();
@@ -144,7 +138,6 @@ namespace WordGame.Server.Controllers
                 game.RemainingGuesses--;
             }
 
-            // Check if the game is finished
             if (game.RemainingGuesses == 0)
             {
                 game.Status = "Loss";
@@ -168,7 +161,6 @@ namespace WordGame.Server.Controllers
             return Ok(gameDto);
         }
 
-        // Delete a game for the authenticated user
         [HttpDelete("games/{gameId}")]
         public async Task<IActionResult> DeleteGame(int gameId)
         {

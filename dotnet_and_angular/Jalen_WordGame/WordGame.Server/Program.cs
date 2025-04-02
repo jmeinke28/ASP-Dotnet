@@ -1,21 +1,21 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WordGame.Models;
+using WordGame.Server.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-// Identity services
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// ✅ ADD JWT AUTHENTICATION CONFIGURATION
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -35,12 +35,11 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure middleware
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.UseAuthentication(); // ✅ Ensure authentication is used
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
