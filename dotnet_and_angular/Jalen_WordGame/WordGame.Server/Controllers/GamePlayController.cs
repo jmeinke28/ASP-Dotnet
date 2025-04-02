@@ -86,7 +86,7 @@ namespace WordGame.Server.Controllers
                 UserId = userId,
                 Status = "Unfinished",
                 Target = target,
-                Guesses = string.Empty,
+                Guesses = new List<string>(),
                 View = new string('_', target.Length),
                 RemainingGuesses = 8
             };
