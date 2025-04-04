@@ -1,14 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 using WordGame.Models;
 using System.Threading.Tasks;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using System;
 
 namespace WordGame.Server.Controllers
 {
@@ -18,13 +12,11 @@ namespace WordGame.Server.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration)
+        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -44,31 +36,11 @@ namespace WordGame.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
-            var user = await _userManager.FindByEmailAsync(loginDetails.Email);
+            var result = await _signInManager.PasswordSignInAsync(loginDetails.Email, loginDetails.Password, isPersistent: true, lockoutOnFailure: false);
 
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginDetails.Password))
+            if (result.Succeeded)
             {
-                // Generate the JWT token
-                var claims = new[]
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id)
-                };
-
-                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
-                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                var token = new JwtSecurityToken(
-                    issuer: _configuration["Jwt:Issuer"],
-                    audience: _configuration["Jwt:Audience"],
-                    claims: claims,
-                    expires: DateTime.Now.AddMinutes(30),
-                    signingCredentials: creds
-                );
-
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token)
-                });
+                return Ok(new { Message = "Login successful." });
             }
 
             return Unauthorized(new { Message = "Invalid credentials." });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,22 +12,14 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
-    return this.http.post<any>(`${this.apiUrl}/login`, body);
+    return this.http.post<any>(`${this.apiUrl}/login`, body, { withCredentials: true });
   }
 
-  saveToken(token: string): void {
-    localStorage.setItem('auth_token', token);
+  logout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('auth_token');
-  }
-
-  logout(): void {
-    localStorage.removeItem('auth_token');
-  }
-
-  isAuthenticated(): boolean {
-    return this.getToken() !== null;
+  isAuthenticated(): Observable<boolean> {
+    return this.http.get<boolean>(`${this.apiUrl}/check-auth`, { withCredentials: true });
   }
 }
