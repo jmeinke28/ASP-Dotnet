@@ -19,7 +19,6 @@ namespace WordGame.Server.Controllers
             _signInManager = signInManager;
         }
 
-        // Register a new user
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] EmailLoginDetails loginDetails)
         {
@@ -31,11 +30,9 @@ namespace WordGame.Server.Controllers
                 return Ok(new { Message = "User registered successfully." });
             }
 
-            // Return a detailed error message for registration failure
             return BadRequest(new { Message = "Registration failed.", Errors = result.Errors });
         }
 
-        // Login an existing user
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
@@ -50,7 +47,6 @@ namespace WordGame.Server.Controllers
             return Unauthorized(new { Message = "Invalid credentials." });
         }
 
-        // Logout the user
         [HttpPost("logout")]
         [Authorize]
         public async Task<IActionResult> Logout()
