@@ -10,15 +10,16 @@ namespace WordGame.Server.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
         }
 
+        // Register a new user
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] EmailLoginDetails loginDetails)
         {
@@ -30,22 +31,26 @@ namespace WordGame.Server.Controllers
                 return Ok(new { Message = "User registered successfully." });
             }
 
-            return BadRequest(result.Errors);
+            // Return a detailed error message for registration failure
+            return BadRequest(new { Message = "Registration failed.", Errors = result.Errors });
         }
 
+        // Login an existing user
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
-            var result = await _signInManager.PasswordSignInAsync(loginDetails.Email, loginDetails.Password, isPersistent: true, lockoutOnFailure: false);
+            var result = await _signInManager.PasswordSignInAsync(loginDetails.Email, loginDetails.Password, false, false);
 
             if (result.Succeeded)
             {
-                return Ok(new { Message = "Login successful." });
+                var user = await _userManager.FindByEmailAsync(loginDetails.Email);
+                return Ok(new { Message = "Login successful.", User = user });
             }
 
             return Unauthorized(new { Message = "Invalid credentials." });
         }
 
+        // Logout the user
         [HttpPost("logout")]
         [Authorize]
         public async Task<IActionResult> Logout()

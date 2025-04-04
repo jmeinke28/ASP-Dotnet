@@ -1,25 +1,34 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { User } from '../models/User';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private apiUrl = 'http://localhost:5000/api/auth'; 
+export class AuthService{
+  private apiUrl = '/api/auth'; 
+
+  private _userSubject: BehaviorSubject<User | null> 
+  = new BehaviorSubject<User | null>(null);
+
+  public user$: Observable<User | null> = this._userSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
-    return this.http.post<any>(`${this.apiUrl}/login`, body, { withCredentials: true });
+    return this.http.post<any>(`${this.apiUrl}/login`, body);
   }
 
   logout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
+    return this.http.post(`${this.apiUrl}/logout`, {});
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/check-auth`, { withCredentials: true });
+  register(email: string, password: string): Observable<any> {
+    const body = { email, password };
+    return this.http.post<any>(`${this.apiUrl}/register`, body);
   }
+  
 }
