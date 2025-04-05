@@ -19,14 +19,14 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit(event: Event) {
-
     event.preventDefault();
     console.log("Log in event");
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
 
     this.authService.login(emailValue, passwordValue).subscribe({
-      next: () => {
+      next: (user: any) => {
+        this.authService.setUser(user);
         this.router.navigate(['/wordgame']);
       },
       error: (err) => {
