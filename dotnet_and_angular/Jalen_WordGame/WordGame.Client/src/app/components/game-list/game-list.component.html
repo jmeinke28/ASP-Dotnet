@@ -1,1 +1,53 @@
-<p>game-list works!</p>
+<!-- <div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold">Your Games</h1>
+    <button
+      (click)="createNewGame()"
+      class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
+    >
+      New Game
+    </button>
+  </div>
+
+  <div *ngIf="errorMessage" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="games.length === 0" class="text-center text-gray-600">
+    <p>No games found. Start a new game to begin playing!</p>
+  </div>
+
+  <div *ngIf="games.length > 0" class="grid gap-4">
+    <div *ngFor="let game of games"
+      class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow">
+      <div class="flex justify-between items-start mb-4">
+        <div>
+          <h2 class="text-xl font-semibold">Game #{{ game.id }}</h2>
+          <p class="text-gray-600">Status: {{ game.status }}</p>
+        </div>
+        <div class="text-right">
+          <p class="text-gray-600">Guesses Remaining: {{ game.remainingGuesses }}</p>
+          <p class="text-gray-600">Word: {{ game.view }}</p>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-2">
+        <button
+          *ngIf="game.status !== 'Won' && game.status !== 'Lost'"
+          (click)="viewGame(game.id)"
+          class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+        >
+          Continue
+        </button>
+        <button
+          (click)="deleteGame(game.id)"
+          class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+ -->
