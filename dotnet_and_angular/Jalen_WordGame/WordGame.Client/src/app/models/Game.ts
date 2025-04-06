@@ -1,7 +1,7 @@
 export interface Game {
-  gameId: number;      
+  gameId: number;       
   phrase: string;      
   remainingGuesses: number; 
   answer: string;      
-  gameStatus: string;  
-}
+  gameStatus: string;
+}   

@@ -1,7 +1,9 @@
-public class GameDto {
-    public int Id { get; set; } // This maps to gameId
-    public string? Target { get; set; } // This maps to phrase
-    public int RemainingGuesses { get; set; } // This stays the same
-    public string? View { get; set; } // This could map to the phrase with blanks
-    public string Status { get; set; } // This maps to gameStatus
+public class GameDto
+{
+    public int Id { get; set; }
+    public string? UserId { get; set; }
+    public string? Status { get; set; }
+    public string? View { get; set; } // This is the 'phrase' in the frontend.
+    public int RemainingGuesses { get; set; }
+    public string? Answer { get; set; } // Added Answer for the game
 }

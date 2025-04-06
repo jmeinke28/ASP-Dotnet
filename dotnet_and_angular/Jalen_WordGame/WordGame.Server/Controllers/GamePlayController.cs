@@ -36,8 +36,9 @@ namespace WordGame.Server.Controllers
                 Id = g.Id,
                 UserId = g.UserId,
                 Status = g.Status,
-                View = g.View,
-                RemainingGuesses = g.RemainingGuesses
+                Phrase = g.View, 
+                RemainingGuesses = g.RemainingGuesses,
+                Answer = g.Target  
             }).ToList();
 
             return Ok(gameDtos);
@@ -61,8 +62,9 @@ namespace WordGame.Server.Controllers
                 Id = game.Id,
                 UserId = game.UserId,
                 Status = game.Status,
-                View = game.View,
-                RemainingGuesses = game.RemainingGuesses
+                Phrase = game.View,  
+                RemainingGuesses = game.RemainingGuesses,
+                Answer = game.Target 
             };
 
             return Ok(gameDto);
@@ -95,8 +97,9 @@ namespace WordGame.Server.Controllers
                 Id = newGame.Id,
                 UserId = newGame.UserId,
                 Status = newGame.Status,
-                View = newGame.View,
-                RemainingGuesses = newGame.RemainingGuesses
+                Phrase = newGame.View, 
+                RemainingGuesses = newGame.RemainingGuesses,
+                Answer = newGame.Target 
             };
 
             return Ok(gameDto);
@@ -154,8 +157,9 @@ namespace WordGame.Server.Controllers
                 Id = game.Id,
                 UserId = game.UserId,
                 Status = game.Status,
-                View = game.View,
-                RemainingGuesses = game.RemainingGuesses
+                Phrase = game.View,  
+                RemainingGuesses = game.RemainingGuesses,
+                Answer = game.Target  
             };
 
             return Ok(gameDto);
@@ -186,8 +190,9 @@ namespace WordGame.Server.Controllers
                 Id = g.Id,
                 UserId = g.UserId,
                 Status = g.Status,
-                View = g.View,
-                RemainingGuesses = g.RemainingGuesses
+                Phrase = g.View,  
+                RemainingGuesses = g.RemainingGuesses,
+                Answer = g.Target 
             }).ToList();
 
             return Ok(gameDtos);
