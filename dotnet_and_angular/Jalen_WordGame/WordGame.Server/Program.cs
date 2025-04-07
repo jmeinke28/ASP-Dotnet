@@ -28,15 +28,11 @@ builder.Services.ConfigureApplicationCookie(options => {
     };
 });
 
-// Use sessions for user authorization
 builder.Services.AddSession(options => {
-    // Session expires after 30 minutes of inactivity
     options.IdleTimeout = TimeSpan.FromMinutes(30);
 
-    // Makes the session cookie more secure
     options.Cookie.HttpOnly = true;
 
-    // Ensures session works even if tracking cookies are disabled
     options.Cookie.IsEssential = true;
 });
 
