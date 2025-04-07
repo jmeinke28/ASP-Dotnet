@@ -36,9 +36,9 @@ namespace WordGame.Server.Controllers
                 Id = g.Id,
                 UserId = g.UserId,
                 Status = g.Status,
-                Phrase = g.View, 
+                Phrase = g.View ?? string.Empty,
                 RemainingGuesses = g.RemainingGuesses,
-                Answer = g.Target  
+                Answer = g.Target ?? string.Empty
             }).ToList();
 
             return Ok(gameDtos);
@@ -62,9 +62,9 @@ namespace WordGame.Server.Controllers
                 Id = game.Id,
                 UserId = game.UserId,
                 Status = game.Status,
-                Phrase = game.View,  
+                Phrase = game.View ?? string.Empty,
                 RemainingGuesses = game.RemainingGuesses,
-                Answer = game.Target 
+                Answer = game.Target ?? string.Empty
             };
 
             return Ok(gameDto);
@@ -97,9 +97,9 @@ namespace WordGame.Server.Controllers
                 Id = newGame.Id,
                 UserId = newGame.UserId,
                 Status = newGame.Status,
-                Phrase = newGame.View, 
+                Phrase = newGame.View ?? string.Empty,
                 RemainingGuesses = newGame.RemainingGuesses,
-                Answer = newGame.Target 
+                Answer = newGame.Target ?? string.Empty
             };
 
             return Ok(gameDto);
@@ -123,9 +123,10 @@ namespace WordGame.Server.Controllers
                 return NotFound(new { Message = "Game not found or does not belong to the user." });
             }
 
-            if (game.Target.Contains(guess))
+            if (!string.IsNullOrEmpty(game.Target) && game.Target.Contains(guess))
             {
-                var newView = game.View.ToCharArray();
+                var currentView = game.View ?? new string('_', game.Target.Length);
+                var newView = currentView.ToCharArray();
                 for (int i = 0; i < game.Target.Length; i++)
                 {
                     if (game.Target[i] == guess[0])
@@ -145,7 +146,7 @@ namespace WordGame.Server.Controllers
             {
                 game.Status = "Loss";
             }
-            else if (!game.View.Contains('_'))
+            else if (!string.IsNullOrEmpty(game.View) && !game.View.Contains('_'))
             {
                 game.Status = "Win";
             }
@@ -157,9 +158,9 @@ namespace WordGame.Server.Controllers
                 Id = game.Id,
                 UserId = game.UserId,
                 Status = game.Status,
-                Phrase = game.View,  
+                Phrase = game.View ?? string.Empty,
                 RemainingGuesses = game.RemainingGuesses,
-                Answer = game.Target  
+                Answer = game.Target ?? string.Empty
             };
 
             return Ok(gameDto);
@@ -190,9 +191,9 @@ namespace WordGame.Server.Controllers
                 Id = g.Id,
                 UserId = g.UserId,
                 Status = g.Status,
-                Phrase = g.View,  
+                Phrase = g.View ?? string.Empty,
                 RemainingGuesses = g.RemainingGuesses,
-                Answer = g.Target 
+                Answer = g.Target ?? string.Empty
             }).ToList();
 
             return Ok(gameDtos);

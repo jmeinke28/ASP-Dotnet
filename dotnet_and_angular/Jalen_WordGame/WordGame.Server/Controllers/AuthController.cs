@@ -22,8 +22,13 @@ namespace WordGame.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] EmailLoginDetails loginDetails)
         {
+            if (loginDetails == null || string.IsNullOrEmpty(loginDetails.Email) || string.IsNullOrEmpty(loginDetails.Password))
+            {
+                return BadRequest(new { Message = "Email and password are required." });
+            }
+
             var user = new ApplicationUser { UserName = loginDetails.Email, Email = loginDetails.Email };
-            var result = await _userManager.CreateAsync(user, loginDetails.Password);
+            var result = await _userManager.CreateAsync(user, loginDetails.Password!);
 
             if (result.Succeeded)
             {
@@ -36,12 +41,35 @@ namespace WordGame.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
+            if (loginDetails == null || string.IsNullOrEmpty(loginDetails.Email) || string.IsNullOrEmpty(loginDetails.Password))
+            {
+                return BadRequest(new { Message = "Email and password are required." });
+            }
+
             var result = await _signInManager.PasswordSignInAsync(loginDetails.Email, loginDetails.Password, false, false);
 
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByEmailAsync(loginDetails.Email);
-                return Ok(new { Message = "Login successful.", User = user });
+
+                if (user != null)
+                {
+                    return Ok(new
+                    {
+                        Message = "Login successful.",
+                        User = new
+                        {
+                            user.Email,
+                            user.UserName,
+                            user.Id
+                        }
+                    });
+                }
+
+                return Ok(new
+                {
+                    Message = "Login successful, but user details could not be retrieved."
+                });
             }
 
             return Unauthorized(new { Message = "Invalid credentials." });
