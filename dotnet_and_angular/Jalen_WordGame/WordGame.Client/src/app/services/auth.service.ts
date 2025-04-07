@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { User } from '../models/User';
+import { User } from '../models/UserDto';
 
 @Injectable({
   providedIn: 'root'
