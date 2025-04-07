@@ -6,6 +6,7 @@ using WordGame.Server.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json;
 
 namespace WordGame.Server.Controllers
 {
@@ -14,13 +15,20 @@ namespace WordGame.Server.Controllers
     [Authorize]
     public class GamePlayController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly WordList _wordList;
 
-        public GamePlayController(UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public GamePlayController(UserManager<IdentityUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _context = context;
+            var wordList = System.IO.File.ReadAllText("Assets/wordList.json");
+            if (null == wordList){
+                throw new Exception("Word list not found.");
+            }
+
+            _wordList = JsonSerializer.Deserialize<WordList>(wordList)!;
         }
 
         [HttpGet("games")]
@@ -74,17 +82,13 @@ namespace WordGame.Server.Controllers
         public async Task<IActionResult> CreateGame()
         {
             var userId = _userManager.GetUserId(User);
-
-            string[] words = new string[] { "apple", "banana", "cherry", "grape", "orange" };
-            var random = new Random();
-            string target = words[random.Next(words.Length)];
+            var target = _wordList.GetRandomWord();
 
             var newGame = new Game
             {
                 UserId = userId,
                 Status = "Unfinished",
                 Target = target,
-                Guesses = new List<string>(),
                 View = new string('_', target.Length),
                 RemainingGuesses = 8
             };
@@ -123,6 +127,8 @@ namespace WordGame.Server.Controllers
                 return NotFound(new { Message = "Game not found or does not belong to the user." });
             }
 
+            game.Guesses += guess;
+
             if (!string.IsNullOrEmpty(game.Target) && game.Target.Contains(guess))
             {
                 var currentView = game.View ?? new string('_', game.Target.Length);
@@ -160,7 +166,8 @@ namespace WordGame.Server.Controllers
                 Status = game.Status,
                 Phrase = game.View ?? string.Empty,
                 RemainingGuesses = game.RemainingGuesses,
-                Answer = game.Target ?? string.Empty
+                Answer = game.Target ?? string.Empty,
+                Guesses = game.Guesses ?? string.Empty
             };
 
             return Ok(gameDto);

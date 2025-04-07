@@ -3,6 +3,7 @@ export interface GameDto {
   userId: string;
   status: string;
   phrase: string;
+  guesses: string;
   remainingGuesses: number;
   answer: string;
 }

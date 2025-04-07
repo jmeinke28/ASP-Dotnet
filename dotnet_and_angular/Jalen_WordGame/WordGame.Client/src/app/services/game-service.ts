@@ -7,7 +7,7 @@ import { GameDto } from '../models/GameDto';
   providedIn: 'root'
 })
 export class GameService {
-  private apiUrl = 'http://localhost:5000/api/wordgame'; 
+  private apiUrl = '/api/gameplay/games'; 
 
   constructor(private http: HttpClient) {}
 

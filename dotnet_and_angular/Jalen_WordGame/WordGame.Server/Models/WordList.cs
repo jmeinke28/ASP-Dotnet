@@ -17,4 +17,13 @@ public class WordList {
 
     [JsonPropertyName("hard")]
     public List<string>? Hard { get; set; }
+
+    public string GetRandomWord(){
+        var random = new Random();
+        var words = new List<string>();
+        words.AddRange(Med ?? Enumerable.Empty<string>());
+        words.AddRange(MedHard ?? Enumerable.Empty<string>());
+        words.AddRange(Hard ?? Enumerable.Empty<string>());
+        return words[random.Next(words.Count)];
+    }
 }
