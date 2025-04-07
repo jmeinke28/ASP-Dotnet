@@ -27,4 +27,16 @@ public class Game
 
     [Required]
     public int RemainingGuesses { get; set; } = 8;
+
+    public GameDto GetGameDto(){
+        return new GameDto{
+            Id = Id,
+            UserId = UserId,
+            Status = Status,
+            Phrase = View ?? string.Empty,
+            RemainingGuesses = RemainingGuesses,
+            Answer = (Status == "Unfinished") ? string.Empty : Target,
+            Guesses = Guesses ?? string.Empty
+        };
+    }
 }

@@ -34,6 +34,7 @@ export class GameViewComponent implements OnInit {
   }
 
   makeGuess() {
+    console.log(this.game);
     if (this.guess.length === 1) {
       this._gameService.makeGuess(this.gameId, this.guess).subscribe(
         (updatedGame) => {

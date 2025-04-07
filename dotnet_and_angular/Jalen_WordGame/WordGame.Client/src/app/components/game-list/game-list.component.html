@@ -29,7 +29,16 @@
         <div>
           <h2 class="text-xl font-semibold">Game #{{ game.id }}</h2>
           <p class="text-gray-600">Status: {{ game.status }}</p>
+
+          <!-- Show answer only if the game is finished -->
+          <p
+            *ngIf="game.status !== 'Unfinished'"
+            class="text-gray-800 font-medium mt-2"
+          >
+            Answer: <span class="font-semibold">{{ game.answer }}</span>
+          </p>
         </div>
+
         <div class="text-right">
           <p class="text-gray-600">
             Guesses Remaining: {{ game.remainingGuesses }}
@@ -40,7 +49,7 @@
 
       <div class="flex justify-end gap-2">
         <button
-          *ngIf="game.status == 'Unfinished'"
+          *ngIf="game.status === 'Unfinished'"
           (click)="viewGame(game.id)"
           class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
         >
