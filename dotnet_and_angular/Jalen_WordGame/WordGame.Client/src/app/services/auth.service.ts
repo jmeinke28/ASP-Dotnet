@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { User } from '../models/UserDto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private apiUrl = '/api/auth';

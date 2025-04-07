@@ -29,13 +29,14 @@ public class Game
     public int RemainingGuesses { get; set; } = 8;
 
     public GameDto GetGameDto(){
+        string answer = Status != "Unfinished" ? Target : "";
         return new GameDto{
             Id = Id,
             UserId = UserId,
             Status = Status,
             Phrase = View ?? string.Empty,
             RemainingGuesses = RemainingGuesses,
-            Answer = (Status == "Unfinished") ? string.Empty : Target,
+            Answer = answer,
             Guesses = Guesses ?? string.Empty
         };
     }

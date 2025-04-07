@@ -26,7 +26,7 @@ export class GameListComponent implements OnInit {
     this._gameService.getAllGames().subscribe(
       (games) => {
         this.games = games;
-        console.log('Games loaded:', games);
+        console.log(games);
       },
       (error) => {
         this.errorMessage = 'Failed to load games.';
@@ -36,7 +36,6 @@ export class GameListComponent implements OnInit {
   }
 
   deleteGame(gameId: number) {
-    console.log(`Attempting to delete game with ID: ${gameId}`);
     this._gameService.deleteGame(gameId).subscribe(
       () => {
         this.loadGames();
@@ -50,11 +49,9 @@ export class GameListComponent implements OnInit {
   }
 
   createNewGame() {
-    console.log('Creating a new game...');
     this._gameService.createGame().subscribe({
       next: (newGame) => {
         this.games.push(newGame);
-        console.log('New game created:', newGame);
       },
       error: (error) => {
         this.errorMessage = 'Failed to create new game.';
@@ -64,7 +61,6 @@ export class GameListComponent implements OnInit {
   }
 
   viewGame(gameId: number) {
-    console.log(`Navigating to game view for game ID: ${gameId}`);
     this.router.navigate([`/wordgame/${gameId}`]);
   }
 }

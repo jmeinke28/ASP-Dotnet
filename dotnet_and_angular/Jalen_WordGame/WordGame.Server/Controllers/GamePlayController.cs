@@ -90,6 +90,10 @@ namespace WordGame.Server.Controllers {
                 return NotFound(new { Message = "Game not found or does not belong to the user." });
             }
 
+            if(game.Guesses.Contains(guess)) {
+                return Ok(game.GetGameDto());
+            }
+
             game.Guesses += guess;
 
             if (!string.IsNullOrEmpty(game.Target) && game.Target.Contains(guess)) {
