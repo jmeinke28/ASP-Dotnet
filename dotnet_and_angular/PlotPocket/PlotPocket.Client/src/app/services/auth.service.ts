@@ -1,58 +1,63 @@
-// import { Injectable } from '@angular/core';
-// import { BehaviorSubject, Observable } from 'rxjs';
-// import { HttpClient } from '@angular/common/http';
-// import { tap } from 'rxjs/operators';
-// import { User } from '../models/UserDto';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class AuthService {
-//   private apiUrl = '/api/auth';
-//   private _userKey = 'loggedInUser';
+export interface User {
+  id: number;
+  email: string;
+  password: string;
+}
 
-//   private _userSubject: BehaviorSubject<User | null>;
-//   public user$: Observable<User | null>;
+@Injectable({
+  providedIn: 'root',
+})
+export class AuthService {
+  private apiUrl = '/api/auth';
+  private _userKey = 'loggedInUser';
 
-//   constructor(private http: HttpClient) {
-//     const userJsonRaw = localStorage.getItem(this._userKey);
-//     const user: User | null = userJsonRaw ? JSON.parse(userJsonRaw) : null;
+  private _userSubject: BehaviorSubject<User | null>;
+  public user$: Observable<User | null>;
 
-//     this._userSubject = new BehaviorSubject<User | null>(user);
-//     this.user$ = this._userSubject.asObservable();
-//   }
+  constructor(private http: HttpClient) {
+    const userJsonRaw = localStorage.getItem(this._userKey);
+    const user: User | null = userJsonRaw ? JSON.parse(userJsonRaw) : null;
 
-//   login(email: string, password: string): Observable<User> {
-//     const body = { email, password };
-//     return this.http.post<User>(`${this.apiUrl}/login`, body).pipe(
-//       tap((user: User) => {
-//         localStorage.setItem(this._userKey, JSON.stringify(user));
-//         this._userSubject.next(user);
-//       })
-//     );
-//   }
+    this._userSubject = new BehaviorSubject<User | null>(user);
+    this.user$ = this._userSubject.asObservable();
+  }
 
-//   logout(): Observable<any> {
-//     localStorage.removeItem(this._userKey);
-//     this._userSubject.next(null);
-//     return this.http.post(`${this.apiUrl}/logout`, {});
-//   }
+  login(email: string, password: string): Observable<User> {
+    const body = { email, password };
+    return this.http.post<User>(`${this.apiUrl}/login`, body).pipe(
+      tap((user: User) => {
+        localStorage.setItem(this._userKey, JSON.stringify(user));
+        this._userSubject.next(user);
+      })
+    );
+  }
 
-//   register(email: string, password: string): Observable<any> {
-//     const body = { email, password };
-//     return this.http.post<any>(`${this.apiUrl}/register`, body);
-//   }
+  logout(): Observable<any> {
+    localStorage.removeItem(this._userKey);
+    this._userSubject.next(null);
+    return this.http.post(`${this.apiUrl}/logout`, {});
+  }
 
-//   setUser(user: User | null): void {
-//     if (user) {
-//       localStorage.setItem(this._userKey, JSON.stringify(user));
-//     } else {
-//       localStorage.removeItem(this._userKey);
-//     }
-//     this._userSubject.next(user);
-//   }
+  register(email: string, password: string): Observable<any> {
+    const body = { email, password };
+    return this.http.post<any>(`${this.apiUrl}/register`, body);
+  }
 
-//   getUser(): User | null {
-//     return this._userSubject.value;
-//   }
-// }
+  setUser(user: User | null): void {
+    if (user) {
+      localStorage.setItem(this._userKey, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(this._userKey);
+    }
+    this._userSubject.next(user);
+  }
+
+  getUser(): User | null {
+    return this._userSubject.value;
+  }
+}
