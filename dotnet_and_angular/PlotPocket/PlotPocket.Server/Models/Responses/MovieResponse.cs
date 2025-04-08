@@ -1,38 +1,21 @@
 using System.Text.Json.Serialization;
+using System.Collections.Generic;
+using PlotPocket.Server.Models.Responses;
 
-namespace PlotPocket.Server.Models.Responses;
+namespace PlotPocket.Server.Models.Responses
+{
+    public class MovieResponse
+    {
+        [JsonPropertyName("results")]
+        public List<Movie> Results { get; set; } = new List<Movie>();
 
-public class MovieResponse {
-    /*
-        TODO: 
-        Define the model based on the response from the Movie endpoints from
-        The Movie Database's API. Be sure to use the [JsonPropertyName("<property>")] attribue
-        above each of your C# properties to ensure that the JSON maps properly to your objects.
-    */
-}
+        [JsonPropertyName("page")]
+        public int Page { get; set; }
 
-public class Date {
-   /*
-			  This model is used on the Movie's "Now Playing" endpoint.
-			  You will notice with that endpoint that there are some dates
-			  for the minimum and maximum dates that the movies were playing.
+        [JsonPropertyName("total_results")]
+        public int TotalResults { get; set; }
 
-			  This Date model is not strictly necessary as we are not
-			  doing anything with this in our app. So may omit this if
-			  you would like.
-		   
-        TODO: 
-        Define the model based on the response from the Movie endpoints from
-        The Movie Database's API. Be sure to use the [JsonPropertyName("<property>")] attribue
-        above each of your C# properties to ensure that the JSON maps properly to your objects.
-    */
-}
-
-public class Movie : ApiMediaItem {
-   /*
-        TODO: 
-        Define the model based on the response from the Movie endpoints from
-        The Movie Database's API. Be sure to use the [JsonPropertyName("<property>")] attribue
-        above each of your C# properties to ensure that the JSON maps properly to your objects.
-    */
+        [JsonPropertyName("total_pages")]
+        public int TotalPages { get; set; }
+    }
 }

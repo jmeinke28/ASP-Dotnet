@@ -3,20 +3,15 @@ using System.Text.Json.Serialization;
 namespace PlotPocket.Server.Models.Responses;
 
 public class TvShowResponse {
-    /*
-        TODO: 
-        Define the model based on the response from the TvShow endpoints from
-        The Movie Database's API. Be sure to use the [JsonPropertyName("<property>")] attribue
-        above each of your C# properties to ensure that the JSON maps properly to your objects.
-    */
-}
+    [JsonPropertyName("results")]
+    public List<TvShow> Results { get; set; } = new List<TvShow>();
 
+    [JsonPropertyName("page")]
+    public int Page { get; set; }
 
-public class TvShow : ApiMediaItem {
-    /*
-        TODO: 
-        Define the model based on the response from the TvShow endpoints from
-        The Movie Database's API. Be sure to use the [JsonPropertyName("<property>")] attribue
-        above each of your C# properties to ensure that the JSON maps properly to your objects.
-    */
+    [JsonPropertyName("total_results")]
+    public int TotalResults { get; set; }
+
+    [JsonPropertyName("total_pages")]
+    public int TotalPages { get; set; }
 }
