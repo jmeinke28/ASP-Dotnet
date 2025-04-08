@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PlotPocket.Server.Data;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
@@ -14,6 +15,10 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(Program));
+
+// builder.Services.AddScoped<ShowService>();
+
+// builder.Services.AddSingleton<TMDBService>();
 
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromHours(1);    
