@@ -1,11 +1,13 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using PlotPocket.Server.Models;
 using System.Threading.Tasks;
+using PlotPocket.Server.Models.Entities;
 
 namespace PlotPocket.Server.Controllers
 {
-    [Route("auth")]
+    [Route("api/[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -18,54 +20,68 @@ namespace PlotPocket.Server.Controllers
             _signInManager = signInManager;
         }
 
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] EmailLoginDetails loginDetails)
         {
-            var user = await _userManager.FindByEmailAsync(loginRequest?.Email);
-            if (user == null)
+            if (loginDetails == null || string.IsNullOrEmpty(loginDetails.Email) || string.IsNullOrEmpty(loginDetails.Password))
             {
-                return Unauthorized("Invalid credentials");
+                return BadRequest(new { Message = "Email and password are required." });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, loginRequest.Password, false, false);
+            var user = new ApplicationUser { UserName = loginDetails.Email, Email = loginDetails.Email };
+            var result = await _userManager.CreateAsync(user, loginDetails.Password!);
+
             if (result.Succeeded)
             {
-                return Ok(new
-                {
-                    Id = user.Id,
-                    Username = user.UserName,
-                    Email = user.Email
-                });
+                return Ok(new { Message = "User registered successfully." });
             }
-            return Unauthorized("Invalid credentials");
+
+            return BadRequest(new { Message = "Registration failed.", Errors = result.Errors });
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
-            if (registerRequest.Password != registerRequest.ConfirmPassword)
+            if (loginDetails == null || string.IsNullOrEmpty(loginDetails.Email) || string.IsNullOrEmpty(loginDetails.Password))
             {
-                return BadRequest("Passwords do not match");
+                return BadRequest(new { Message = "Email and password are required." });
             }
 
-            var user = new IdentityUser
-            {
-                UserName = registerRequest.Email, 
-                Email = registerRequest.Email
-            };
+            var result = await _signInManager.PasswordSignInAsync(loginDetails.Email, loginDetails.Password, false, false);
 
-            var result = await _userManager.CreateAsync(user, registerRequest.Password);
             if (result.Succeeded)
             {
+                var user = await _userManager.FindByEmailAsync(loginDetails.Email);
+
+                if (user != null)
+                {
+                    return Ok(new
+                    {
+                        Message = "Login successful.",
+                        User = new
+                        {
+                            user.Email,
+                            user.UserName,
+                            user.Id
+                        }
+                    });
+                }
+
                 return Ok(new
                 {
-                    Id = user.Id,
-                    Username = user.UserName,
-                    Email = user.Email
+                    Message = "Login successful, but user details could not be retrieved."
                 });
             }
 
-            return BadRequest(result.Errors);
+            return Unauthorized(new { Message = "Invalid credentials." });
+        }
+
+        [HttpPost("logout")]
+        [Authorize]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            return Ok(new { Message = "Logged out successfully." });
         }
     }
 }
