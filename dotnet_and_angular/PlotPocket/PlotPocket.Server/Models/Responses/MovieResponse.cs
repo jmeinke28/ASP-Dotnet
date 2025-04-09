@@ -8,14 +8,5 @@ namespace PlotPocket.Server.Models.Responses
     {
         [JsonPropertyName("results")]
         public List<Movie> Results { get; set; } = new List<Movie>();
-
-        [JsonPropertyName("page")]
-        public int Page { get; set; }
-
-        [JsonPropertyName("total_results")]
-        public int TotalResults { get; set; }
-
-        [JsonPropertyName("total_pages")]
-        public int TotalPages { get; set; }
     }
 }

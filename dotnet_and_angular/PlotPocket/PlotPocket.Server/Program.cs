@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PlotPocket.Server.Data;
+using PlotPocket.Server.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,9 +17,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
-// builder.Services.AddScoped<ShowService>();
+builder.Services.AddScoped<ShowService>();
 
-// builder.Services.AddSingleton<TMDBService>();
+builder.Services.AddSingleton<TMDBService>();
 
 builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromHours(1);    
@@ -39,6 +40,8 @@ builder.Services.ConfigureApplicationCookie(options => {
         return Task.CompletedTask;
     };
 });
+
+builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 

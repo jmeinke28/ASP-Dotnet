@@ -1,33 +1,29 @@
 using System.Text.Json.Serialization;
-using System;
-using System.Collections.Generic;
 
-namespace PlotPocket.Server.Models.Responses
-{
-    public abstract class ApiMediaItem
-    {
-        [JsonPropertyName("id")]
-        public int Id { get; set; }
+namespace PlotPocket.Server.Models.Responses;
 
-        [JsonPropertyName("original_language")]
-        public string? OriginalLanguage { get; set; }
+public abstract class ApiMediaItem {
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
 
-        [JsonPropertyName("overview")]
-        public string? Overview { get; set; }
+    [JsonPropertyName("original_language")]
+    public string? OriginalLanguage { get; set; }
 
-        [JsonPropertyName("popularity")]
-        public double Popularity { get; set; }
+    [JsonPropertyName("overview")]
+    public string? Overview { get; set; }
 
-        [JsonPropertyName("poster_path")]
-        public string? PosterPath { get; set; }
+    [JsonPropertyName("popularity")]
+    public double Popularity { get; set; }
 
-        [JsonPropertyName("genre_ids")]
-        public List<int>? GenreIds { get; set; }
+    [JsonPropertyName("poster_path")]
+    public string? PosterPath { get; set; }
 
-        [JsonPropertyName("vote_average")]
-        public double VoteAverage { get; set; }
+    [JsonPropertyName("genre_ids")]
+    public List<int> GenreIds { get; set; }
 
-        [JsonPropertyName("vote_count")]
-        public int VoteCount { get; set; }
-    }
+    [JsonPropertyName("vote_average")]
+    public double VoteAverage { get; set; }
+
+    [JsonPropertyName("vote_count")]
+    public int VoteCount { get; set; }
 }

@@ -7,8 +7,14 @@ public class Trending : ApiMediaItem {
     public string? Name { get; set; }
 
     [JsonPropertyName("first_air_date")]
-    public DateTime? FirstAirDate { get; set; }  
+    public string? FirstAirDate { get; set; }  
 
     [JsonPropertyName("release_date")]
-    public DateTime? ReleaseDate { get; set; } 
+    public string? ReleaseDate { get; set; }
+
+    [JsonPropertyName("media_type")]
+    public string? MediaType { get; set; }
+    
+    [JsonPropertyName("title")]
+    public string? Title { get; set; }
 }
