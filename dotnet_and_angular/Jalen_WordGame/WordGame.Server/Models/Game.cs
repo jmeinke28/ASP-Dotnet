@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using WordGame.Models; // Add this line if it's not already there
+using WordGame.Models; 
 
 
 public class Game
