@@ -24,29 +24,27 @@ export class RegisterComponent {
   onSubmit(event: Event) {
     event.preventDefault();
 
-    console.log('Form submitted'); // Debugging log
+    console.log('onSubmit triggered');
+    console.log('Form submitted');
 
     if (this.password.value !== this.confirmPassword.value) {
       this.errorMessage = 'Passwords do not match';
-      console.log('Password mismatch'); // Debugging log
+      console.log('Password mismatch');
       return;
     }
 
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
 
-    console.log('Email value:', emailValue); // Debugging log
-    console.log('Password value:', passwordValue); // Debugging log
-
     this.authService.register(emailValue, passwordValue).subscribe({
       next: () => {
-        console.log('Registration successful'); // Debugging log
+        console.log('Registration successful');
         this.router.navigate(['/auth/login']);
       },
       error: (err) => {
         this.errorMessage =
           err.error?.message || 'Registration failed. Please try again.';
-        console.error('Registration error:', err); // Error logging
+        console.error('Registration error:', err);
       },
     });
   }

@@ -30,6 +30,17 @@ builder.Services.AddSession(options => {
 
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAllOrigins", policy =>
+    {
+        policy.AllowAnyOrigin()  
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
 builder.Services.ConfigureApplicationCookie(options => {
     options.Events.OnRedirectToLogin = context => {
         if (context.Request.Path.StartsWithSegments("/api")) {
@@ -40,8 +51,6 @@ builder.Services.ConfigureApplicationCookie(options => {
         return Task.CompletedTask;
     };
 });
-
-builder.Services.AddAutoMapper(typeof(Program));
 
 var app = builder.Build();
 
@@ -59,6 +68,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCors("AllowAllOrigins"); 
+app.UseSession();
 
 app.UseAuthorization();
 

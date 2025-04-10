@@ -25,15 +25,32 @@ export class LoginComponent {
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
 
+    console.log('Login Attempt');
+    console.log('Email:', emailValue);
+    console.log('Password:', passwordValue);
+
+    // Check if the form fields are valid
+    if (this.email.invalid || this.password.invalid) {
+      console.log('Form is invalid');
+      return;
+    }
+
+    console.log('Form is valid, sending login request...');
+
     this._authService.login(emailValue, passwordValue).subscribe({
       next: (user: any) => {
+        console.log('Login successful:', user);
         this._authService.setUser(user);
         this._router.navigate(['/']);
       },
       error: (err) => {
+        console.error('Login error:', err);
         this.errorMessage =
           err.error?.message || 'Login failed. Please try again.';
-        console.error('Login error:', err);
+        console.log('Error message displayed:', this.errorMessage);
+      },
+      complete: () => {
+        console.log('Login request completed');
       },
     });
   }
