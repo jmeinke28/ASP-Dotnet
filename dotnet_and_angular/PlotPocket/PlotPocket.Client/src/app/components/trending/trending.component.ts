@@ -21,7 +21,6 @@ export class TrendingComponent implements OnInit {
     this.getTrendingTV();
   }
 
-  // Method to fetch trending movies
   getTrendingMovies() {
     this.trendingService.getTrendingMovies().subscribe(
       (data) => {
