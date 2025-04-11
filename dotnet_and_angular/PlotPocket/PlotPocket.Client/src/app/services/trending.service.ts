@@ -10,17 +10,14 @@ export class TrendingService {
 
   constructor(private http: HttpClient) {}
 
-  // Get trending all
   getTrendingAll(): Observable<any> {
     return this.http.get(`${this.apiUrl}/all`);
   }
 
-  // Method to get trending movies
   getTrendingMovies(): Observable<any> {
     return this.http.get(`${this.apiUrl}/movies`);
   }
 
-  // Method to get trending TV shows
   getTrendingTVShows(): Observable<any> {
     return this.http.get(`${this.apiUrl}/tv`);
   }

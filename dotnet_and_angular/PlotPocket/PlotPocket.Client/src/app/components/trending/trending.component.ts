@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { TrendingService } from '../../services/trending.service';
+import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { ShowCardComponent } from '../show-card/show-card.component';
 
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [],
+  imports: [SearchBarComponent, ShowCardComponent],
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css'],
 })
 export class TrendingComponent implements OnInit {
-  trendingMovies: any[] = []; // Array to store trending movies
-  trendingTVShows: any[] = []; // Array to store trending TV shows
-  isLoading: boolean = true; // Flag to show loading spinner or message
-  errorMessage: string = ''; // For storing error message if any
+  trendingMovies: any[] = [];
+  trendingTVShows: any[] = [];
+  isLoading: boolean = true;
+  errorMessage: string = '';
 
   constructor(private trendingService: TrendingService) {}
 
@@ -29,7 +31,7 @@ export class TrendingComponent implements OnInit {
       },
       (error) => {
         this.isLoading = false; // Stop loading on error
-        this.errorMessage = 'Error fetching trending movies'; // Show error message
+        this.errorMessage = 'Error fetching trending movies';
         console.error('Error fetching movies:', error);
       }
     );
