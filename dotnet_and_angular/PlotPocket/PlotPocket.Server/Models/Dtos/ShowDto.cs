@@ -8,5 +8,7 @@ namespace PlotPocket.Server.Models.Dtos {
         public string? Title { get; set; }
         public DateTime? Date { get; set; } 
         public string? PosterPath { get; set; }
+        public bool IsBookmarked { get; set; }
+
     }
 }

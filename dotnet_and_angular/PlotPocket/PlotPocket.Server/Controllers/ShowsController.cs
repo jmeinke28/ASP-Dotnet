@@ -1,4 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using PlotPocket.Server.Data;
+using PlotPocket.Server.Models.Dtos;
+using PlotPocket.Server.Models.Entities;
 using PlotPocket.Server.Services;
 
 namespace PlotPocket.Server.Controllers
@@ -8,51 +13,107 @@ namespace PlotPocket.Server.Controllers
     public class ShowsController : ControllerBase
     {
         private readonly TMDBService _tmdbService;
+        private readonly ShowService _showService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ApplicationDbContext _context;
 
-        public ShowsController(TMDBService tmdbService)
+        public ShowsController(TMDBService tmdbService, ShowService showService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _tmdbService = tmdbService;
+            _showService = showService;
+            _userManager = userManager;
+            _context = context;
         }
 
-        [HttpGet("trending")]
-        public async Task<IActionResult> GetTrending([FromQuery] string type = "all", [FromQuery] string timeWindow = "day")
+        [HttpPost("add")]
+        public async Task<ActionResult<ShowDto>> AddShow([FromBody] ShowDto showDto)
         {
-            if (type == "movie")
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
             {
-                var result = await _tmdbService.GetTrendingMoviesAsync(timeWindow);
-                return Ok(result);
+                return NotFound();
             }
 
-            if (type == "tv")
+            var existingShow = await _context.Shows.FirstOrDefaultAsync(s => s.ShowApiId == showDto.ShowApiId);
+
+            if (existingShow != null)
             {
-                var result = await _tmdbService.GetTrendingTvShowsAsync(timeWindow);
-                return Ok(result);
+                if (!user.Shows.Contains(existingShow))
+                {
+                    user.Shows.Add(existingShow);
+                    await _context.SaveChangesAsync();
+                }
+                return Ok(_showService.ShowToShowDto(existingShow));
+            }
+            else
+            {
+                var newShow = new Show
+                {
+                    ShowApiId = showDto.ShowApiId,
+                    Title = showDto.Title,
+                    Date = showDto.Date,
+                    PosterPath = showDto.PosterPath
+                };
+
+                _context.Shows.Add(newShow);
+                await _context.SaveChangesAsync();
+
+                user.Shows.Add(newShow);
+                await _context.SaveChangesAsync();
+
+                return Ok(_showService.ShowToShowDto(newShow));
+            }
+        }
+
+        [HttpDelete("{showId}")]
+        public async Task<IActionResult> RemoveShow(int showId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return NotFound();
             }
 
-            // Default to all types
-            var all = await _tmdbService.GetTrendingShowsAsync(timeWindow);
-            return Ok(all);
+            var show = await _context.Shows
+                .Include(s => s.Users)
+                .FirstOrDefaultAsync(s => s.Id == showId);
+
+            if (show == null || !user.Shows.Contains(show))
+            {
+                return NotFound();
+            }
+
+            user.Shows.Remove(show);
+            await _context.SaveChangesAsync();
+
+            if (!show.Users.Any())
+            {
+                _context.Shows.Remove(show);
+                await _context.SaveChangesAsync();
+            }
+
+            return NoContent();
         }
 
-        [HttpGet("now-playing")]
-        public async Task<IActionResult> GetNowPlayingMovies()
+        [HttpGet]
+        public async Task<IActionResult> GetAllBookmarks()
         {
-            var movies = await _tmdbService.GetNowPlayingMoviesAsync();
-            return Ok(movies);
-        }
+            var user = await _userManager.GetUserAsync(User);
 
-        [HttpGet("top-rated-movies")]
-        public async Task<IActionResult> GetTopRatedMovies()
-        {
-            var movies = await _tmdbService.GetTopRatedMoviesAsync();
-            return Ok(movies);
-        }
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-        [HttpGet("popular-movies")]
-        public async Task<IActionResult> GetPopularMovies()
-        {
-            var movies = await _tmdbService.GetPopularMoviesAsync();
-            return Ok(movies);
+            var bookmarkedShows = user.Shows;
+
+            var showDtos = bookmarkedShows
+                .Select(show => _showService.ShowToShowDto(show))
+                .ToList();
+
+            return Ok(showDtos);
         }
     }
 }
