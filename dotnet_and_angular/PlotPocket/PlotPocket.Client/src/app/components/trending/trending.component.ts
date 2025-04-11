@@ -6,7 +6,7 @@ import { ShowCardComponent } from '../show-card/show-card.component';
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [SearchBarComponent, ShowCardComponent],
+  imports: [SearchBarComponent],
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css'],
 })
