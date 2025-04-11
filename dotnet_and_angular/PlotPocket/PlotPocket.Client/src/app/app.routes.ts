@@ -12,9 +12,9 @@ export const routes: Routes = [
   { path: '', component: HomePageComponent },
   { path: 'auth/register', component: RegisterComponent },
   { path: 'auth/login', component: LoginComponent },
-  { path: 'trending', component: TrendingComponent },
-  { path: 'tvshows', component: TvshowsComponent },
-  { path: 'movies', component: MoviesComponent },
-  { path: 'shows', component: ShowsComponent },
+  { path: 'media/trending', component: TrendingComponent },
+  { path: 'media/tv-shows', component: TvshowsComponent },
+  { path: 'media/movies', component: MoviesComponent },
+  { path: 'media/shows', component: ShowsComponent },
   { path: '**', component: PageNotFoundComponent },
 ];
