@@ -68,20 +68,53 @@
               </svg>
             </a>
           </li>
+
+          <!-- ✅ Bookmark (only when logged in) -->
+          <li
+            *ngIf="user$ | async"
+            class="nav-item"
+            [routerLinkActive]="['link-active']"
+          >
+            <a
+              class="nav-link"
+              [routerLink]="['/bookmarks']"
+              routerLinkActive
+              #bookmarks="routerLinkActive"
+            >
+              <svg width="17" height="20" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M15.386 0H1.614C.723 0 0 .723 0 1.614v17.123a1.25 1.25 0 0 0 1.943 1.064L8.5 15.87l6.557 3.93A1.25 1.25 0 0 0 17 18.737V1.614C17 .723 16.277 0 15.386 0Z"
+                  fill="#FFF"
+                />
+              </svg>
+            </a>
+          </li>
         </ul>
       </div>
 
       <div class="flex items-center space-x-6">
-        <a
-          class="text-white text-sm hover:bg-white hover:text-black px-4 py-1 rounded"
-          [routerLink]="['/auth/login']"
-          >Login</a
-        >
-        <a
-          class="text-white text-sm hover:bg-white hover:text-black px-4 py-1 rounded"
-          [routerLink]="['/auth/register']"
-          >Register</a
-        >
+        <ng-container *ngIf="!(user$ | async)">
+          <a
+            class="text-white text-sm hover:bg-white hover:text-black px-4 py-1 rounded"
+            [routerLink]="['/auth/login']"
+            >Login</a
+          >
+          <a
+            class="text-white text-sm hover:bg-white hover:text-black px-4 py-1 rounded"
+            [routerLink]="['/auth/register']"
+            >Register</a
+          >
+        </ng-container>
+
+        <!-- Show Logout if logged in -->
+        <ng-container *ngIf="user$ | async">
+          <button
+            class="text-white text-sm hover:bg-white hover:text-black px-4 py-1 rounded"
+            (click)="logout()"
+          >
+            Logout
+          </button>
+        </ng-container>
       </div>
     </div>
   </nav>

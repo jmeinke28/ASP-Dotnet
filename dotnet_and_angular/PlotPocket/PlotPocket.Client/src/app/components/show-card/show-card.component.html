@@ -1,1 +1,52 @@
-<p>show-card works!</p>
+<div class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden">
+  <!-- Image section -->
+  <div class="relative w-full flex-shrink-0">
+    <img class="w-full" src="SHOW POSTER PATH" alt="Show poster" />
+
+    <!-- Position the bookmark icon absolutely within the image container -->
+    <div
+      class="absolute top-2 right-2 w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
+    >
+      <!-- Bookmark SVG -->
+      <svg
+        width="22"
+        height="24"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <!-- TODO: Make sure to have a "show" variable in our TypeScript -->
+        <path
+          *ngIf="!show.isBookmarked"
+          d="M5 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18l-7-3-7 3V3z"
+          stroke="#FFF"
+          stroke-width="2"
+        />
+        <!-- TODO: Make sure to have a "show" variable in our TypeScript -->
+        <path
+          *ngIf="show.isBookmarked"
+          d="M5 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18l-7-3-7 3V3z"
+          fill="#FFF"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <!-- Content section -->
+  <div class="flex flex-col flex-grow p-4">
+    <div class="mb-2 flex justify-between items-center">
+      <div class="flex-grow">
+        <p class="text-white text-xl font-semibold truncate">SHOW TITLE</p>
+        <p class="text-white text-sm">SHOW DATE</p>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between mt-auto">
+      <div class="flex items-center">
+        <!-- Category icon SVG here -->
+
+        <p class="text-white text-sm ml-1">SHOW TYPE</p>
+      </div>
+    </div>
+  </div>
+</div>

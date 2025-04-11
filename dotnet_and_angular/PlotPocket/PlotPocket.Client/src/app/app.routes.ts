@@ -16,5 +16,10 @@ export const routes: Routes = [
   { path: 'media/tv-shows', component: TvshowsComponent },
   { path: 'media/movies', component: MoviesComponent },
   { path: 'media/shows', component: ShowsComponent },
+  { path: 'media/shows/:id', component: ShowsComponent },
+  { path: 'media/movies/:id', component: MoviesComponent },
+  { path: 'media/tv-shows/:id', component: TvshowsComponent },
+  { path: 'media/trending/:id', component: TrendingComponent },
+  { path: 'bookmarks', component: TrendingComponent },
   { path: '**', component: PageNotFoundComponent },
 ];

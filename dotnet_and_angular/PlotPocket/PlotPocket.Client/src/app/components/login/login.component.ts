@@ -1,9 +1,12 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import {
+  FormControl,
+  Validators,
+  ReactiveFormsModule,
+  FormGroup,
+} from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -13,9 +16,18 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  // Form controls
   email = new FormControl<string>('', [Validators.required, Validators.email]);
   password = new FormControl<string>('', [Validators.required]);
+
+  // Group the form controls
+  form = new FormGroup({
+    email: this.email,
+    password: this.password,
+  });
+
   errorMessage: string = '';
+
   private _authService = inject(AuthService);
   private _router = inject(Router);
 
@@ -29,8 +41,7 @@ export class LoginComponent {
     console.log('Email:', emailValue);
     console.log('Password:', passwordValue);
 
-    // Check if the form fields are valid
-    if (this.email.invalid || this.password.invalid) {
+    if (this.form.invalid) {
       console.log('Form is invalid');
       return;
     }

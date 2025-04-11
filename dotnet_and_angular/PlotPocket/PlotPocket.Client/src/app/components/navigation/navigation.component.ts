@@ -1,6 +1,8 @@
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { RouterLink, RouterModule } from '@angular/router';
+import { RouterLink, RouterModule, Router } from '@angular/router';
+import { AuthService, User } from '../../services/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-navigation',
@@ -9,4 +11,14 @@ import { RouterLink, RouterModule } from '@angular/router';
   templateUrl: './navigation.component.html',
   styleUrl: './navigation.component.css',
 })
-export class NavigationComponent {}
+export class NavigationComponent {
+  private _authService = inject(AuthService);
+  private _router = inject(Router);
+  user$: Observable<User | null> = this._authService.user$;
+
+  logout() {
+    this._authService.logout().subscribe(() => {
+      this._router.navigate(['/auth/login']);
+    });
+  }
+}
