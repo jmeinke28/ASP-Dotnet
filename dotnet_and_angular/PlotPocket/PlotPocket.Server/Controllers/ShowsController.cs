@@ -17,7 +17,12 @@ namespace PlotPocket.Server.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public ShowsController(TMDBService tmdbService, ShowService showService, UserManager<ApplicationUser> userManager, ApplicationDbContext context)
+        public ShowsController(
+            TMDBService tmdbService,
+            ShowService showService,
+            UserManager<ApplicationUser> userManager,
+            ApplicationDbContext context
+        )
         {
             _tmdbService = tmdbService;
             _showService = showService;
@@ -35,7 +40,9 @@ namespace PlotPocket.Server.Controllers
                 return NotFound();
             }
 
-            var existingShow = await _context.Shows.FirstOrDefaultAsync(s => s.ShowApiId == showDto.ShowApiId);
+            var existingShow = await _context.Shows.FirstOrDefaultAsync(s =>
+                s.ShowApiId == showDto.ShowApiId
+            );
 
             if (existingShow != null)
             {
@@ -53,7 +60,7 @@ namespace PlotPocket.Server.Controllers
                     ShowApiId = showDto.ShowApiId,
                     Title = showDto.Title,
                     Date = showDto.Date,
-                    PosterPath = showDto.PosterPath
+                    PosterPath = showDto.PosterPath,
                 };
 
                 _context.Shows.Add(newShow);
@@ -76,8 +83,8 @@ namespace PlotPocket.Server.Controllers
                 return NotFound();
             }
 
-            var show = await _context.Shows
-                .Include(s => s.Users)
+            var show = await _context
+                .Shows.Include(s => s.Users)
                 .FirstOrDefaultAsync(s => s.Id == showId);
 
             if (show == null || !user.Shows.Contains(show))

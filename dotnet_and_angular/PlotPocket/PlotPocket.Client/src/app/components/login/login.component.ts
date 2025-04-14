@@ -32,49 +32,47 @@ export class LoginComponent {
   private _router = inject(Router);
 
   onSubmit(event: Event) {
-    event.preventDefault();
-
+    event.preventDefault(); // Prevent form submission to avoid page reload
+  
+    // Log when the submission starts
+    console.log('Login form submitted');
+    
+    // Trim form values
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
-
-<<<<<<< HEAD
-=======
-    console.log('Login Attempt');
-    console.log('Email:', emailValue);
-    console.log('Password:', passwordValue);
-
->>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
+  
+    // Log the trimmed values
+    console.log('Trimmed Email:', emailValue);
+    console.log('Trimmed Password:', passwordValue);
+  
+    // Check if the form is valid
     if (this.form.invalid) {
-      console.log('Form is invalid');
+      console.log('Form is invalid, stopping submission');
       return;
     }
-
-<<<<<<< HEAD
-    this._authService.login(emailValue, passwordValue).subscribe({
-      next: (user: any) => {
-=======
-    console.log('Form is valid, sending login request...');
-
+  
+    console.log('Form is valid, attempting to log in...');
+    
+    // Call the login method from AuthService
     this._authService.login(emailValue, passwordValue).subscribe({
       next: (user: any) => {
         console.log('Login successful:', user);
->>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
         this._authService.setUser(user);
         this._router.navigate(['/']);
       },
       error: (err) => {
         console.error('Login error:', err);
-        this.errorMessage =
-          err.error?.message || 'Login failed. Please try again.';
+        // Log the error message from the backend if available
+        this.errorMessage = err.error?.message || 'Login failed. Please try again.';
         console.log('Error message displayed:', this.errorMessage);
       },
       complete: () => {
-<<<<<<< HEAD
-        console.log('Login request validated, you are now logged in');
-=======
         console.log('Login request completed');
->>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
-      },
+      }
     });
+  
+    // Additional log to indicate that login was attempted
+    console.log('Login attempt sent to the server...');
   }
-}
+  
+}  

@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PlotPocket.Server.Models.Entities;
 
-public class Show {
+public class Show
+{
     [Key]
     public int Id { get; set; } = 0;
     public int ShowApiId { get; set; }
@@ -12,5 +13,4 @@ public class Show {
     public string? PosterPath { get; set; }
 
     public virtual ICollection<ApplicationUser>? Users { get; set; }
-
 }

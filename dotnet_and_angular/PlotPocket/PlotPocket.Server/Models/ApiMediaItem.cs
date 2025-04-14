@@ -2,7 +2,8 @@ using System.Text.Json.Serialization;
 
 namespace PlotPocket.Server.Models.Responses;
 
-public abstract class ApiMediaItem {
+public abstract class ApiMediaItem
+{
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
@@ -19,7 +20,7 @@ public abstract class ApiMediaItem {
     public string? PosterPath { get; set; }
 
     [JsonPropertyName("genre_ids")]
-    public List<int> GenreIds { get; set; }
+    public required List<int> GenreIds { get; set; }
 
     [JsonPropertyName("vote_average")]
     public double VoteAverage { get; set; }

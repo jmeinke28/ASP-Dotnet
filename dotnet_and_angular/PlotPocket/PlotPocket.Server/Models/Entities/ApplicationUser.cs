@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace PlotPocket.Server.Models.Entities
 {

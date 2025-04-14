@@ -1,5 +1,5 @@
-using System.Text.Json.Serialization;
 using System.Collections.Generic;
+using System.Text.Json.Serialization;
 using PlotPocket.Server.Models.Responses;
 
 namespace PlotPocket.Server.Models.Responses

@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authorization;
-using PlotPocket.Server.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using PlotPocket.Server.Models;
 using PlotPocket.Server.Models.Entities;
 
 namespace PlotPocket.Server.Controllers
@@ -14,7 +14,10 @@ namespace PlotPocket.Server.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
 
-        public AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public AuthController(
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -23,12 +26,20 @@ namespace PlotPocket.Server.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] EmailLoginDetails loginDetails)
         {
-            if (loginDetails == null || string.IsNullOrEmpty(loginDetails.Email) || string.IsNullOrEmpty(loginDetails.Password))
+            if (
+                loginDetails == null
+                || string.IsNullOrEmpty(loginDetails.Email)
+                || string.IsNullOrEmpty(loginDetails.Password)
+            )
             {
                 return BadRequest(new { Message = "Email and password are required." });
             }
 
-            var user = new ApplicationUser { UserName = loginDetails.Email, Email = loginDetails.Email };
+            var user = new ApplicationUser
+            {
+                UserName = loginDetails.Email,
+                Email = loginDetails.Email,
+            };
             var result = await _userManager.CreateAsync(user, loginDetails.Password!);
 
             if (result.Succeeded)
@@ -42,12 +53,21 @@ namespace PlotPocket.Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginDetails loginDetails)
         {
-            if (loginDetails == null || string.IsNullOrEmpty(loginDetails.Email) || string.IsNullOrEmpty(loginDetails.Password))
+            if (
+                loginDetails == null
+                || string.IsNullOrEmpty(loginDetails.Email)
+                || string.IsNullOrEmpty(loginDetails.Password)
+            )
             {
                 return BadRequest(new { Message = "Email and password are required." });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(loginDetails.Email, loginDetails.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(
+                loginDetails.Email,
+                loginDetails.Password,
+                false,
+                false
+            );
 
             if (result.Succeeded)
             {
@@ -55,22 +75,23 @@ namespace PlotPocket.Server.Controllers
 
                 if (user != null)
                 {
-                    return Ok(new
-                    {
-                        Message = "Login successful.",
-                        User = new
+                    return Ok(
+                        new
                         {
-                            user.Email,
-                            user.UserName,
-                            user.Id
+                            Message = "Login successful.",
+                            User = new
+                            {
+                                user.Email,
+                                user.UserName,
+                                user.Id,
+                            },
                         }
-                    });
+                    );
                 }
 
-                return Ok(new
-                {
-                    Message = "Login successful, but user details could not be retrieved."
-                });
+                return Ok(
+                    new { Message = "Login successful, but user details could not be retrieved." }
+                );
             }
 
             return Unauthorized(new { Message = "Invalid credentials." });
