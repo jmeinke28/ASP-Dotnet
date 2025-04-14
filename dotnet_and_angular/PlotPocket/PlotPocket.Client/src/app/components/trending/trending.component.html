@@ -7,16 +7,19 @@
     <div class="flex gap-3 mt-4">
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('all')"
       >
         All Trending
       </button>
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('movies')"
       >
         Trending Movies
       </button>
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('tv')"
       >
         Trending TV Shows
       </button>
@@ -24,40 +27,46 @@
   </div>
 
   <!-- Loading or Error Message -->
-  <div *ngIf="isLoading" class="text-center">Loading...</div>
-  <div *ngIf="errorMessage" class="text-red-600 text-center">{{ errorMessage }}</div>
+  <div *ngIf="isLoading" class="text-center text-white mt-4">Loading...</div>
+  <div *ngIf="errorMessage" class="text-red-600 text-center mt-4">{{ errorMessage }}</div>
 
   <!-- Content Display -->
   <div *ngIf="!isLoading && !errorMessage">
     <!-- All Trending Section -->
-    <div class="p-6 mb-1">
+    <div *ngIf="selectedCategory === 'all'" class="p-6">
       <h2 class="text-2xl font-bold text-white mb-4">All Trending</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <ng-container *ngFor="let item of allTrending">
-          <!-- Only render if item exists -->
-          <app-show-card *ngIf="item" [show]="item" class="w-full max-w-xs mx-auto bg-gray-800 text-white p-4 rounded-lg shadow-lg"></app-show-card>
+          <app-show-card *ngIf="item" [show]="item" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + item.poster_path" alt="{{ item.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
+            <h3 class="text-xl font-semibold text-center mt-2">{{ item.title }}</h3>
+          </app-show-card>
         </ng-container>
       </div>
     </div>
 
     <!-- Trending Movies Section -->
-    <div class="p-0 mb-1">
+    <div *ngIf="selectedCategory === 'movies'" class="p-6">
       <h2 class="text-2xl font-bold text-white mb-4">Trending Movies</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <ng-container *ngFor="let movie of trendingMovies">
-          <!-- Only render if movie exists -->
-          <app-show-card *ngIf="movie" [show]="movie" class="w-full max-w-xs mx-auto bg-gray-800 text-white p-4 rounded-lg shadow-lg"></app-show-card>
+          <app-show-card *ngIf="movie" [show]="movie" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
+            <h3 class="text-xl font-semibold text-center mt-2">{{ movie.title }}</h3>
+          </app-show-card>
         </ng-container>
       </div>
     </div>
 
     <!-- Trending TV Shows Section -->
-    <div class="p-6">
+    <div *ngIf="selectedCategory === 'tv'" class="p-6">
       <h2 class="text-2xl font-bold text-white mb-4">Trending TV Shows</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         <ng-container *ngFor="let tvShow of trendingTVShows">
-          <!-- Only render if tvShow exists -->
-          <app-show-card *ngIf="tvShow" [show]="tvShow" class="w-full max-w-xs mx-auto bg-gray-800 text-white p-4 rounded-lg shadow-lg"></app-show-card>
+          <app-show-card *ngIf="tvShow" [show]="tvShow" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + tvShow.poster_path" alt="{{ tvShow.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
+            <h3 class="text-xl font-semibold text-center mt-2">{{ tvShow.title }}</h3>
+          </app-show-card>
         </ng-container>
       </div>
     </div>

@@ -56,9 +56,8 @@ export class TrendingComponent implements OnInit {
     }
   }
 
-  // Change the selected category and update the displayed content
-  setSelectedCategory(category: string): void {
+  changeCategory(category: string) {
     this.selectedCategory = category;
-    this.updateAllTrending();
   }
+
 }

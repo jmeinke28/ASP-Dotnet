@@ -14,7 +14,11 @@ namespace PlotPocket.Server.Controllers
         private readonly ShowService _showService;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public TvShowsController(TMDBService tmdbService, ShowService showService, UserManager<ApplicationUser> userManager)
+        public TvShowsController(
+            TMDBService tmdbService,
+            ShowService showService,
+            UserManager<ApplicationUser> userManager
+        )
         {
             _showService = showService;
             _userManager = userManager;
@@ -26,7 +30,9 @@ namespace PlotPocket.Server.Controllers
         {
             var user = _userManager.GetUserId(User);
             var shows = await _tmdbService.GetAiringTodayTvShowsAsync();
-            var showList = shows.Results.Select(x => _showService.MediaItemToShowDto(x, user)).ToList();
+            var showList = shows
+                .Results.Select(x => _showService.MediaItemToShowDto(x, user))
+                .ToList();
             return Ok(shows);
         }
 
@@ -35,7 +41,9 @@ namespace PlotPocket.Server.Controllers
         {
             var user = _userManager.GetUserId(User);
             var shows = await _tmdbService.GetTopRatedTvShowsAsync();
-            var showList = shows.Results.Select(x => _showService.MediaItemToShowDto(x, user)).ToList();
+            var showList = shows
+                .Results.Select(x => _showService.MediaItemToShowDto(x, user))
+                .ToList();
             return Ok(shows);
         }
 
@@ -44,7 +52,9 @@ namespace PlotPocket.Server.Controllers
         {
             var user = _userManager.GetUserId(User);
             var shows = await _tmdbService.GetPopularTvShowsAsync();
-            var showList = shows.Results.Select(x => _showService.MediaItemToShowDto(x, user)).ToList();
+            var showList = shows
+                .Results.Select(x => _showService.MediaItemToShowDto(x, user))
+                .ToList();
             return Ok(shows);
         }
     }
