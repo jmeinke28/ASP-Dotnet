@@ -16,11 +16,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  // Form controls
   email = new FormControl<string>('', [Validators.required, Validators.email]);
   password = new FormControl<string>('', [Validators.required]);
 
-  // Group the form controls
   form = new FormGroup({
     email: this.email,
     password: this.password,
@@ -32,7 +30,7 @@ export class LoginComponent {
   private _router = inject(Router);
 
   onSubmit(event: Event) {
-    event.preventDefault(); // Prevent form submission to avoid page reload
+    event.preventDefault(); 
   
     // Log when the submission starts
     console.log('Login form submitted');
@@ -40,10 +38,6 @@ export class LoginComponent {
     // Trim form values
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
-  
-    // Log the trimmed values
-    console.log('Trimmed Email:', emailValue);
-    console.log('Trimmed Password:', passwordValue);
   
     // Check if the form is valid
     if (this.form.invalid) {
@@ -53,7 +47,6 @@ export class LoginComponent {
   
     console.log('Form is valid, attempting to log in...');
     
-    // Call the login method from AuthService
     this._authService.login(emailValue, passwordValue).subscribe({
       next: (user: any) => {
         console.log('Login successful:', user);
@@ -62,7 +55,6 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('Login error:', err);
-        // Log the error message from the backend if available
         this.errorMessage = err.error?.message || 'Login failed. Please try again.';
         console.log('Error message displayed:', this.errorMessage);
       },
@@ -71,7 +63,6 @@ export class LoginComponent {
       }
     });
   
-    // Additional log to indicate that login was attempted
     console.log('Login attempt sent to the server...');
   }
   

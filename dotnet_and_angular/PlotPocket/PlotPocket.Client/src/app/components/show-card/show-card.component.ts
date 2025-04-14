@@ -1,11 +1,12 @@
 import { Component, inject, Input } from '@angular/core';
 import { Show } from '../../models/Show';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-show-card',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './show-card.component.html',
   styleUrls: ['./show-card.component.css'],
 })

@@ -6,42 +6,38 @@ using PlotPocket.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Get the connection string from appsettings.json or environment variables
+// ----------------------
+// Configure Services
+// ----------------------
+
+// 1. Get the connection string
 var connectionString =
     builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
-// Register DbContext with SQLite (or another database provider)
+// 2. Register DbContext (using SQLite)
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
-// Register Identity services (UserManager, SignInManager, etc.)
+// 3. Register Identity with ApplicationUser
 builder
-    .Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
 
-// Add Database Developer Page Exception Filter (only for development)
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-// Add controllers and views (for MVC/Web API)
-builder.Services.AddControllersWithViews();
-
-// Add AutoMapper (for object mapping)
-builder.Services.AddAutoMapper(typeof(Program));
-
-// Register custom services
-builder.Services.AddScoped<ShowService>();
-builder.Services.AddSingleton<TMDBService>();
-
-// Set up session management
+// 4. Register session middleware
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Adjust idle timeout as needed
+    options.IdleTimeout = TimeSpan.FromHours(1);
+    options.Cookie.Name = ".plotpocket.Session";
     options.Cookie.HttpOnly = true;
+    options.Cookie.SameSite = SameSiteMode.Strict;
     options.Cookie.IsEssential = true;
 });
 
-// Configure CORS to allow all origins, methods, and headers
+// 5. Register CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(
@@ -53,7 +49,17 @@ builder.Services.AddCors(options =>
     );
 });
 
-// Configure authentication cookie and redirect paths
+// 6. Register MVC & Razor views
+builder.Services.AddControllersWithViews();
+
+// 7. Register AutoMapper
+builder.Services.AddAutoMapper(typeof(Program));
+
+// 8. Register custom services
+builder.Services.AddScoped<ShowService>();
+builder.Services.AddSingleton<TMDBService>();
+
+// 9. Configure cookie authentication
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Events.OnRedirectToLogin = context =>
@@ -63,38 +69,45 @@ builder.Services.ConfigureApplicationCookie(options =>
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             return Task.CompletedTask;
         }
+
         context.Response.Redirect(context.RedirectUri);
         return Task.CompletedTask;
     };
 });
 
-// Build the app
+// 10. Developer exception filter (for EF errors)
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// ----------------------
+// Configure Middleware
+// ----------------------
+
 var app = builder.Build();
 
-// Configure middleware
 if (app.Environment.IsDevelopment())
 {
-    app.UseMigrationsEndPoint(); // Automatically handle migrations in development
+    app.UseMigrationsEndPoint(); // Auto-run EF migrations
 }
 else
 {
-    app.UseExceptionHandler("/Home/Error"); // Generic error handler for production
-    app.UseHsts(); // HTTP Strict Transport Security for production
+    app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
 
-app.UseHttpsRedirection(); // Redirect HTTP requests to HTTPS
-app.UseStaticFiles(); // Serve static files like CSS, JS, etc.
-app.UseRouting(); // Enable routing for controllers and API endpoints
-app.UseCors("AllowAllOrigins"); // Apply the CORS policy
-app.UseSession(); // Enable session middleware
-app.UseAuthentication(); // Enable authentication middleware
-app.UseAuthorization(); // Enable authorization middleware
+app.UseHttpsRedirection();
+app.UseStaticFiles();
 
-// Define the default route for controllers
+app.UseRouting();
+
+app.UseCors("AllowAllOrigins");
+app.UseSession(); // 👈 Must be before auth if you're storing anything in session
+app.UseAuthentication();
+app.UseAuthorization();
+
+// MVC route
 app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Fallback to index.html for client-side routing (useful for SPA)
+// Fallback for Angular/React/etc.
 app.MapFallbackToFile("index.html");
 
-// Run the app
 app.Run();
