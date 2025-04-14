@@ -1,0 +1,20 @@
+<div>
+  <header class="bg-blue-600 p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <a [routerLink]="user ? '/wordgame' : '/'" class="text-white text-lg font-semibold">Home</a>
+
+      <h1 class="text-white text-2xl font-bold absolute left-1/2 transform -translate-x-1/2">Word Game</h1>
+
+      <div class="space-x-4">
+        <ng-container *ngIf="!user">
+          <a routerLink="/auth/login" class="text-white hover:text-blue-300 transition">Login</a>
+          <a routerLink="/auth/register" class="text-white hover:text-blue-300 transition">Register</a>
+        </ng-container>
+
+        <ng-container *ngIf="user">
+          <button (click)="onLogout()" class="text-white hover:text-blue-300 transition">Logout</button>
+        </ng-container>
+      </div>
+    </div>
+  </header>
+</div>

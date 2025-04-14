@@ -1,0 +1,40 @@
+# ASP.NET specific
+**/bin/
+**/obj/
+
+# Node.js dependencies
+**/node_modules/
+
+# Angular build output
+/dist/
+
+# SQLite database files
+app.db
+app.db-shm
+app.db-wal
+
+# Environment and configuration files
+.env
+appsettings*.json
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
+
+# Visual Studio and JetBrains Rider settings
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# macOS and system files
+.DS_Store
+Thumbs.db
+
+# Git
+.gitignore
+
+.fake
