@@ -23,10 +23,9 @@ export class RegisterComponent {
 
   onSubmit(event: Event) {
     event.preventDefault();
-    console.log("register event")
+
     if (this.password.value !== this.confirmPassword.value) {
       this.errorMessage = 'Passwords do not match';
-      console.log(this.errorMessage)
       return;
     }
 
@@ -38,7 +37,8 @@ export class RegisterComponent {
         this.router.navigate(['/auth/login']);
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Registration failed. Please try again.';
+        this.errorMessage =
+          err.error?.message || 'Registration failed. Please try again.';
         console.error('Registration error:', err);
       },
     });

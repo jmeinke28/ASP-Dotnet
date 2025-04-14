@@ -37,13 +37,28 @@ export class LoginComponent {
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
 
+<<<<<<< HEAD
+=======
+    console.log('Login Attempt');
+    console.log('Email:', emailValue);
+    console.log('Password:', passwordValue);
+
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
     if (this.form.invalid) {
       console.log('Form is invalid');
       return;
     }
 
+<<<<<<< HEAD
     this._authService.login(emailValue, passwordValue).subscribe({
       next: (user: any) => {
+=======
+    console.log('Form is valid, sending login request...');
+
+    this._authService.login(emailValue, passwordValue).subscribe({
+      next: (user: any) => {
+        console.log('Login successful:', user);
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
         this._authService.setUser(user);
         this._router.navigate(['/']);
       },
@@ -54,7 +69,11 @@ export class LoginComponent {
         console.log('Error message displayed:', this.errorMessage);
       },
       complete: () => {
+<<<<<<< HEAD
         console.log('Login request validated, you are now logged in');
+=======
+        console.log('Login request completed');
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
       },
     });
   }

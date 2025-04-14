@@ -23,7 +23,7 @@ namespace WordGame.Server.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.PrimitiveCollection<string>("Guesses")
+                    b.Property<string>("Guesses")
                         .IsRequired()
                         .HasColumnType("TEXT");
 

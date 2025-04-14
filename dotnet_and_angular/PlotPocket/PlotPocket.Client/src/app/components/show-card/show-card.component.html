@@ -1,6 +1,7 @@
 <div class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden">
   <!-- Image section -->
   <div class="relative w-full flex-shrink-0">
+<<<<<<< HEAD
     <!-- Conditionally display image if posterPath exists -->
     <img
       *ngIf="show?.posterPath"
@@ -17,17 +18,34 @@
       <!-- Bookmark SVG: If not bookmarked, show outline; if bookmarked, show filled -->
       <svg
         *ngIf="!show?.isBookmarked"
+=======
+    <img class="w-full" src="{{ show?.posterPath }}" alt="Show poster" />
+
+    <!-- Position the bookmark icon absolutely within the image container -->
+    <div
+      class="absolute top-2 right-2 w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
+    >
+      <!-- Bookmark SVG -->
+      <svg
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
         width="22"
         height="24"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
         viewBox="0 0 24 24"
       >
+<<<<<<< HEAD
         <path
+=======
+        <!-- TODO: Make sure to have a "show" variable in our TypeScript -->
+        <path
+          *ngIf="!show.isBookmarked"
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
           d="M5 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18l-7-3-7 3V3z"
           stroke="#FFF"
           stroke-width="2"
         />
+<<<<<<< HEAD
       </svg>
 
       <svg
@@ -39,6 +57,11 @@
         viewBox="0 0 24 24"
       >
         <path
+=======
+        <!-- TODO: Make sure to have a "show" variable in our TypeScript -->
+        <path
+          *ngIf="show.isBookmarked"
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
           d="M5 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18l-7-3-7 3V3z"
           fill="#FFF"
         />
@@ -50,15 +73,26 @@
   <div class="flex flex-col flex-grow p-4">
     <div class="mb-2 flex justify-between items-center">
       <div class="flex-grow">
+<<<<<<< HEAD
         <!-- Show Title -->
         <p class="text-white text-xl font-semibold truncate">{{ show?.title }}</p>
+=======
+        <p class="text-white text-xl font-semibold truncate">SHOW TITLE</p>
+        <p class="text-white text-sm">SHOW DATE</p>
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
       </div>
     </div>
 
     <div class="flex items-center justify-between mt-auto">
       <div class="flex items-center">
+<<<<<<< HEAD
         <!-- Show Type -->
         <p class="text-white text-sm ml-1">{{ show?.type }}</p>
+=======
+        <!-- Category icon SVG here -->
+
+        <p class="text-white text-sm ml-1">SHOW TYPE</p>
+>>>>>>> f6772b669156dbd79d36cc6622c6623a3ca220b6
       </div>
     </div>
   </div>

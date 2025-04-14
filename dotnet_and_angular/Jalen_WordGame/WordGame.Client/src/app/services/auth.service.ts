@@ -1,28 +1,40 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { User } from '../models/User';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import { User } from '../models/UserDto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  private apiUrl = '/api/auth'; 
+  private apiUrl = '/api/auth';
+  private _userKey = 'loggedInUser';
 
-  private _userSubject: BehaviorSubject<User | null> 
-    = new BehaviorSubject<User | null>(null);
+  private _userSubject: BehaviorSubject<User | null>;
+  public user$: Observable<User | null>;
 
-  public user$: Observable<User | null> = this._userSubject.asObservable();
+  constructor(private http: HttpClient) {
+    const userJsonRaw = localStorage.getItem(this._userKey);
+    const user: User | null = userJsonRaw ? JSON.parse(userJsonRaw) : null;
 
-  constructor(private http: HttpClient) {}
+    this._userSubject = new BehaviorSubject<User | null>(user);
+    this.user$ = this._userSubject.asObservable();
+  }
 
-  login(email: string, password: string): Observable<any> {
+  login(email: string, password: string): Observable<User> {
     const body = { email, password };
-    return this.http.post<any>(`${this.apiUrl}/login`, body);
+    return this.http.post<User>(`${this.apiUrl}/login`, body).pipe(
+      tap((user: User) => {
+        localStorage.setItem(this._userKey, JSON.stringify(user));
+        this._userSubject.next(user);
+      })
+    );
   }
 
   logout(): Observable<any> {
+    localStorage.removeItem(this._userKey);
+    this._userSubject.next(null);
     return this.http.post(`${this.apiUrl}/logout`, {});
   }
 
@@ -32,6 +44,11 @@ export class AuthService {
   }
 
   setUser(user: User | null): void {
+    if (user) {
+      localStorage.setItem(this._userKey, JSON.stringify(user));
+    } else {
+      localStorage.removeItem(this._userKey);
+    }
     this._userSubject.next(user);
   }
 
