@@ -100,7 +100,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseCors("AllowAllOrigins");
-app.UseSession(); // 👈 Must be before auth if you're storing anything in session
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
