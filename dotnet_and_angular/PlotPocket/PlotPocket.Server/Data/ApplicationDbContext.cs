@@ -7,8 +7,7 @@ namespace PlotPocket.Server.Data;
 public class ApplicationDbContext : IdentityDbContext
 {
     public DbSet<Show> Shows { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 }

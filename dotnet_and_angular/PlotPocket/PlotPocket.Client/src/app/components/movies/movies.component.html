@@ -3,23 +3,42 @@
     <!-- Search Bar -->
     <app-search-bar class="w-2/3"></app-search-bar>
 
-    <!-- Clean category buttons -->
-    <div class="flex gap-3 mt-2">
+    <!-- Category Buttons -->
+    <div class="flex gap-3 mt-4">
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('now_playing')"
       >
         Now Playing
       </button>
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('top_rated')"
       >
         Top Rated
       </button>
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('popular')"
       >
         Popular
       </button>
+    </div>
+  </div>
+
+  <!-- Loading or Error Message -->
+  <div *ngIf="isLoading" class="text-center">Loading...</div>
+  <div *ngIf="errorMessage" class="text-red-600 text-center">{{ errorMessage }}</div>
+
+  <!-- Movies Display -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <h2 class="text-2xl font-bold text-white mb-4">Movies</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div *ngFor="let movie of movies" class="bg-gray-800 text-white p-4 rounded-lg shadow-lg">
+        <h3 class="text-xl">{{ movie.title }}</h3>
+        <img [src]="movie.posterPath" alt="{{ movie.title }}" class="w-full h-56 object-cover rounded-lg mt-2" />
+        <p class="mt-2">{{ movie.overview }}</p>
+      </div>
     </div>
   </div>
 </div>

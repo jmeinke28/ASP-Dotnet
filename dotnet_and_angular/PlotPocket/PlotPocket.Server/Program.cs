@@ -20,7 +20,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite
 
 // 3. Register Identity with ApplicationUser
 builder
-    .Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+    .Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     {
         options.SignIn.RequireConfirmedAccount = false;
     })

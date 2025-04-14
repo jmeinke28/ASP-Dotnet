@@ -95,7 +95,7 @@ namespace PlotPocket.Server.Controllers
             user.Shows.Remove(show);
             await _context.SaveChangesAsync();
 
-            if (!show.Users.Any())
+            if (!show.Users!.Any())
             {
                 _context.Shows.Remove(show);
                 await _context.SaveChangesAsync();

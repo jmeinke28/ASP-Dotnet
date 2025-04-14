@@ -7,16 +7,30 @@ namespace PlotPocket.Server.Services;
 public class TMDBService
 {
     private readonly RestClient _restClient;
-    private readonly string? _apiKey;
-    private readonly string? _baseUrl;
+    private readonly string _apiKey;
+    private readonly string _baseUrl;
 
     public TMDBService(IConfiguration configuration)
     {
-        _apiKey = configuration["TMDB:ApiKey"];
-
-        _baseUrl = configuration["TMDB:BaseUrl"] ?? "";
-
+        _apiKey = configuration["TMDB:ApiKey"] ?? throw new ArgumentNullException("TMDB:ApiKey");
+        _baseUrl = configuration["TMDB:BaseUrl"] ?? throw new ArgumentNullException("TMDB:BaseUrl");
         _restClient = new RestClient(_baseUrl);
+    }
+
+    private static T DeserializeOrDefault<T>(string? json)
+        where T : new()
+    {
+        if (string.IsNullOrWhiteSpace(json))
+            return new T();
+
+        try
+        {
+            return JsonSerializer.Deserialize<T>(json) ?? new T();
+        }
+        catch
+        {
+            return new T();
+        }
     }
 
     public async Task<TrendingResponse> GetTrendingShowsAsync(string timeWindow = "day")
@@ -28,11 +42,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        TrendingResponse? trendingResp = JsonSerializer.Deserialize<TrendingResponse>(
-            response.Content
-        );
-
-        return trendingResp ?? new TrendingResponse();
+        return DeserializeOrDefault<TrendingResponse>(response?.Content);
     }
 
     public async Task<TrendingResponse> GetTrendingMoviesAsync(string timeWindow = "day")
@@ -44,11 +54,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        TrendingResponse? trendingResp = JsonSerializer.Deserialize<TrendingResponse>(
-            response.Content
-        );
-
-        return trendingResp ?? new TrendingResponse();
+        return DeserializeOrDefault<TrendingResponse>(response?.Content);
     }
 
     public async Task<TrendingResponse> GetTrendingTvShowsAsync(string timeWindow = "day")
@@ -60,11 +66,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        TrendingResponse? trendingResp = JsonSerializer.Deserialize<TrendingResponse>(
-            response.Content
-        );
-
-        return trendingResp ?? new TrendingResponse();
+        return DeserializeOrDefault<TrendingResponse>(response?.Content);
     }
 
     public async Task<MovieResponse> GetNowPlayingMoviesAsync()
@@ -76,9 +78,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        MovieResponse? movieResp = JsonSerializer.Deserialize<MovieResponse>(response.Content);
-
-        return movieResp ?? new MovieResponse();
+        return DeserializeOrDefault<MovieResponse>(response?.Content);
     }
 
     public async Task<MovieResponse> GetTopRatedMoviesAsync()
@@ -90,9 +90,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        MovieResponse? movieResp = JsonSerializer.Deserialize<MovieResponse>(response.Content);
-
-        return movieResp ?? new MovieResponse();
+        return DeserializeOrDefault<MovieResponse>(response?.Content);
     }
 
     public async Task<MovieResponse> GetPopularMoviesAsync()
@@ -104,9 +102,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        MovieResponse? movieResp = JsonSerializer.Deserialize<MovieResponse>(response.Content);
-
-        return movieResp ?? new MovieResponse();
+        return DeserializeOrDefault<MovieResponse>(response?.Content);
     }
 
     public async Task<TvShowResponse> GetAiringTodayTvShowsAsync()
@@ -118,9 +114,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        TvShowResponse? tvShowResp = JsonSerializer.Deserialize<TvShowResponse>(response.Content);
-
-        return tvShowResp ?? new TvShowResponse();
+        return DeserializeOrDefault<TvShowResponse>(response?.Content);
     }
 
     public async Task<TvShowResponse> GetTopRatedTvShowsAsync()
@@ -132,9 +126,7 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        TvShowResponse? tvShowResp = JsonSerializer.Deserialize<TvShowResponse>(response.Content);
-
-        return tvShowResp ?? new TvShowResponse();
+        return DeserializeOrDefault<TvShowResponse>(response?.Content);
     }
 
     public async Task<TvShowResponse> GetPopularTvShowsAsync()
@@ -146,8 +138,6 @@ public class TMDBService
 
         var response = await _restClient.GetAsync(request);
 
-        TvShowResponse? tvShowResp = JsonSerializer.Deserialize<TvShowResponse>(response.Content);
-
-        return tvShowResp ?? new TvShowResponse();
+        return DeserializeOrDefault<TvShowResponse>(response?.Content);
     }
 }
