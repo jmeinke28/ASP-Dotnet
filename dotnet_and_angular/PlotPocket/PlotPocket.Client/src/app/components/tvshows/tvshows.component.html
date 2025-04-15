@@ -3,23 +3,72 @@
     <!-- Search Bar -->
     <app-search-bar class="w-2/3"></app-search-bar>
 
-    <!-- Clean, modern buttons -->
-    <div class="flex gap-3 mt-2">
+    <!-- Category Buttons -->
+    <div class="flex gap-3 mt-4">
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('airing')"
       >
         Airing Today
       </button>
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('top-rated')"
       >
         Top Rated
       </button>
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
+        (click)="changeCategory('popular')"
       >
         Popular
       </button>
+    </div>
+  </div>
+
+  <!-- Loading or Error Message -->
+  <div *ngIf="isLoading" class="text-center text-white mt-4">Loading...</div>
+  <div *ngIf="errorMessage" class="text-red-600 text-center mt-4">{{ errorMessage }}</div>
+
+  <!-- Content Display -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <!-- Airing Today Section -->
+    <div *ngIf="selectedCategory === 'airing'" class="p-6">
+      <h2 class="text-2xl font-bold text-white mb-4">Airing Today</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <ng-container *ngFor="let show of airingToday">
+          <app-show-card *ngIf="show" [show]="show" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath" alt="{{ show.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
+            <h3 class="text-xl font-semibold text-center mt-2">{{ show.title }}</h3>
+          </app-show-card>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Top Rated Section -->
+    <div *ngIf="selectedCategory === 'top-rated'" class="p-6">
+      <h2 class="text-2xl font-bold text-white mb-4">Top Rated</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <ng-container *ngFor="let show of topRated">
+          <app-show-card *ngIf="show" [show]="show" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath" alt="{{ show.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
+            <h3 class="text-xl font-semibold text-center mt-2">{{ show.title }}</h3>
+          </app-show-card>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Popular Section -->
+    <div *ngIf="selectedCategory === 'popular'" class="p-6">
+      <h2 class="text-2xl font-bold text-white mb-4">Popular</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <ng-container *ngFor="let show of popular">
+          <app-show-card *ngIf="show" [show]="show" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath" alt="{{ show.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
+            <h3 class="text-xl font-semibold text-center mt-2">{{ show.title }}</h3>
+          </app-show-card>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

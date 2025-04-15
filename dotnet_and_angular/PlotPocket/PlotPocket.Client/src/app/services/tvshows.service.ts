@@ -6,19 +6,19 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TvshowsService {
-  private baseUrl = '/api/tv';
+  private baseUrl = '/api/tv'; // Ensure this matches the backend route for TV shows
 
   constructor(private http: HttpClient) {}
 
   getAiringToday(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/airing-today`);
+    return this.http.get(`${this.baseUrl}/airing-today`); // Match backend endpoint
   }
 
   getTopRated(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/top-rated`);
+    return this.http.get(`${this.baseUrl}/top-rated`); // Match backend endpoint
   }
 
   getPopular(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/popular`);
+    return this.http.get(`${this.baseUrl}/popular`); // Match backend endpoint
   }
 }

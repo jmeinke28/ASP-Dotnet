@@ -23,7 +23,6 @@ export class TrendingComponent implements OnInit {
   constructor(private trendingService: TrendingService) {}
 
   ngOnInit(): void {
-    console.log('TrendingComponent initialized');
     
     // Use forkJoin to fetch both trending movies and TV shows in parallel
     forkJoin([
