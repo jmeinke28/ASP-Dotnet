@@ -30,7 +30,7 @@ builder
 // 4. Register session middleware
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromHours(1);
+    options.IdleTimeout = TimeSpan.FromDays(5);
     options.Cookie.Name = ".plotpocket.Session";
     options.Cookie.HttpOnly = true;
     options.Cookie.SameSite = SameSiteMode.Strict;
