@@ -1,6 +1,5 @@
 <div class="container mx-auto px-4 mt-12">
   <div class="flex flex-col items-center gap-4">
-    <!-- Search Bar -->
     <app-search-bar class="w-2/3"></app-search-bar>
 
     <!-- Category Buttons -->
@@ -30,44 +29,74 @@
   <div *ngIf="isLoading" class="text-center text-white mt-4">Loading...</div>
   <div *ngIf="errorMessage" class="text-red-600 text-center mt-4">{{ errorMessage }}</div>
 
-  <!-- Content Display -->
+  <!-- Trending Display -->
   <div *ngIf="!isLoading && !errorMessage">
-    <!-- All Trending Section -->
-    <div *ngIf="selectedCategory === 'all'" class="p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">All Trending</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <ng-container *ngFor="let item of allTrending">
-          <app-show-card *ngIf="item" [show]="item" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
-            <img [src]="'https://image.tmdb.org/t/p/w500' + item.poster_path" alt="{{ item.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-semibold text-center mt-2">{{ item.title }}</h3>
-          </app-show-card>
-        </ng-container>
-      </div>
-    </div>
+    <h2 class="text-2xl font-bold text-white mb-4 mt-8">
+      Trending {{ selectedCategory === 'all' ? 'Movies & TV Shows' : selectedCategory === 'movies' ? 'Movies' : 'TV Shows' }}
+    </h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let show of allTrending"
+        class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden"
+      >
+        <!-- Image section -->
+        <div class="relative w-full flex-shrink-0">
+          <img
+            *ngIf="show.posterPath"
+            class="w-full"
+            [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath"
+            alt="{{ show.title }}"
+          />
 
-    <!-- Trending Movies Section -->
-    <div *ngIf="selectedCategory === 'movies'" class="p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">Trending Movies</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <ng-container *ngFor="let movie of trendingMovies">
-          <app-show-card *ngIf="movie" [show]="movie" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
-            <img [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path" alt="{{ movie.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-semibold text-center mt-2">{{ movie.title }}</h3>
-          </app-show-card>
-        </ng-container>
-      </div>
-    </div>
+          <!-- Bookmark icon -->
+          <div
+            class="absolute top-2 right-2 w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
+            (click)="toggleBookmark(show)"
+          >
+            <svg
+              *ngIf="!show.isBookmarked"
+              width="22"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M5 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18l-7-3-7 3V3z"
+                stroke="#FFF"
+                stroke-width="2"
+              />
+            </svg>
+            <svg
+              *ngIf="show.isBookmarked"
+              width="22"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M5 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v18l-7-3-7 3V3z"
+                fill="#FFF"
+              />
+            </svg>
+          </div>
+        </div>
 
-    <!-- Trending TV Shows Section -->
-    <div *ngIf="selectedCategory === 'tv'" class="p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">Trending TV Shows</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <ng-container *ngFor="let tvShow of trendingTVShows">
-          <app-show-card *ngIf="tvShow" [show]="tvShow" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
-            <img [src]="'https://image.tmdb.org/t/p/w500' + tvShow.poster_path" alt="{{ tvShow.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-semibold text-center mt-2">{{ tvShow.title }}</h3>
-          </app-show-card>
-        </ng-container>
+        <!-- Content section -->
+        <div class="flex flex-col flex-grow p-4">
+          <div class="mb-2 flex justify-between items-center">
+            <div class="flex-grow">
+              <p class="text-white text-xl font-semibold truncate">{{ show.title }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mt-auto">
+            <div class="flex items-center">
+              <p class="text-white text-sm ml-1">{{ show.type }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -35,20 +35,20 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div
         *ngFor="let movie of movies"
-        class="relative bg-[#161D2F] rounded-xl overflow-hidden shadow-lg flex flex-col"
+        class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden"
       >
-        <!-- Poster -->
-        <div class="relative">
+        <!-- Image section -->
+        <div class="relative w-full flex-shrink-0">
           <img
             *ngIf="movie.poster_path"
+            class="w-full"
             [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
             alt="{{ movie.title }}"
-            class="w-full h-[420px] object-cover"
           />
 
-          <!-- Bookmark Icon -->
+          <!-- Bookmark icon -->
           <div
-            class="absolute top-2 right-2 w-10 h-10 bg-gray-500/70 rounded-full flex items-center justify-center cursor-pointer"
+            class="absolute top-2 right-2 w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
             (click)="toggleBookmark(movie)"
           >
             <svg
@@ -81,11 +81,19 @@
           </div>
         </div>
 
-        <!-- Title -->
-        <div class="p-4 flex-grow flex flex-col justify-end">
-          <p class="text-white text-xl font-semibold text-center truncate">
-            {{ movie.title }}
-          </p>
+        <!-- Content section -->
+        <div class="flex flex-col flex-grow p-4">
+          <div class="mb-2 flex justify-between items-center">
+            <div class="flex-grow">
+              <p class="text-white text-xl font-semibold truncate">{{ movie.title }}</p>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between mt-auto">
+            <div class="flex items-center">
+              <p class="text-white text-sm ml-1">{{ movie.type }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

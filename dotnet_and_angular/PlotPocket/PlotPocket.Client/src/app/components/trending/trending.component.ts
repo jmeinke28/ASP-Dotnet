@@ -4,10 +4,11 @@ import { forkJoin } from 'rxjs';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { ShowCardComponent } from '../show-card/show-card.component';
 import { CommonModule } from '@angular/common';
+import { Show } from '../../models/Show';
 
 @Component({
   selector: 'app-trending',
-  standalone : true,
+  standalone: true,
   imports: [SearchBarComponent, ShowCardComponent, CommonModule],
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css']
@@ -23,7 +24,6 @@ export class TrendingComponent implements OnInit {
   constructor(private trendingService: TrendingService) {}
 
   ngOnInit(): void {
-    
     // Use forkJoin to fetch both trending movies and TV shows in parallel
     forkJoin([
       this.trendingService.getTrendingMovies(),
@@ -33,8 +33,8 @@ export class TrendingComponent implements OnInit {
         console.log('Trending movies and TV shows fetched');
         this.trendingMovies = movies;
         this.trendingTVShows = tvShows;
-        this.updateAllTrending();  // Update the allTrending array with both movies and TV shows
-        this.isLoading = false;    // Set loading to false when data is fetched
+        this.updateAllTrending(); // Initialize allTrending with the default 'all' category
+        this.isLoading = false;   // Set loading to false when data is fetched
       },
       (error) => {
         console.error('Error fetching trending data:', error);
@@ -55,8 +55,15 @@ export class TrendingComponent implements OnInit {
     }
   }
 
-  changeCategory(category: string) {
+  // Change the category and update the list of trending items
+  changeCategory(category: string): void {
     this.selectedCategory = category;
+    this.updateAllTrending(); // Re-update the trending list when category changes
   }
 
+  toggleBookmark(show: Show): void {
+    if (!show) return;
+    show.isBookmarked = !show.isBookmarked;
+    console.log('Bookmark status changed for show:', show.title, show.isBookmarked);
+  }
 }
