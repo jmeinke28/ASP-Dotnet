@@ -7,7 +7,7 @@ import { ShowCardComponent } from "../show-card/show-card.component";
 @Component({
   selector: 'app-movies',
   standalone: true,
-  imports: [SearchBarComponent, CommonModule],
+  imports: [SearchBarComponent, CommonModule, ShowCardComponent],
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.css'],
 })
@@ -15,6 +15,7 @@ export class MoviesComponent implements OnInit {
   movies: any[] = [];
   isLoading = true;
   errorMessage: string = '';
+  selectedCategory: string = 'now_playing'; // Default category
 
   constructor(private moviesService: MoviesService) {}
 
@@ -28,11 +29,11 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getNowPlayingMovies().subscribe(
       (data) => {
-        console.log('Now Playing Response:', data);
         this.movies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false // Add isBookmarked field to each movie
-        })); // Add isBookmarked to each movie object
+          isBookmarked: false, // Initialize bookmark state
+          type: 'Movie' // Type field for consistency
+        }));
         this.isLoading = false;
       },
       (error) => {
@@ -51,7 +52,8 @@ export class MoviesComponent implements OnInit {
         console.log('Top Rated Response:', data);
         this.movies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false // Add isBookmarked field to each movie
+          isBookmarked: false, // Initialize bookmark state
+          type: 'Movie' // Type field for consistency
         }));
         this.isLoading = false;
       },
@@ -68,10 +70,10 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getPopularMovies().subscribe(
       (data) => {
-        console.log('Popular Response:', data);
         this.movies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false // Add isBookmarked field to each movie
+          isBookmarked: false, // Initialize bookmark state
+          type: 'Movie' // Type field for consistency
         }));
         this.isLoading = false;
       },
@@ -83,10 +85,7 @@ export class MoviesComponent implements OnInit {
   }
 
   changeCategory(category: string): void {
-    this.isLoading = true;
-    this.errorMessage = ''; // Reset error message
-
-    // Make sure the category values ('now_playing', 'top_rated', 'popular') are properly handled
+    this.selectedCategory = category;
     if (category === 'now_playing') {
       this.getNowPlayingMovies();
     } else if (category === 'top_rated') {

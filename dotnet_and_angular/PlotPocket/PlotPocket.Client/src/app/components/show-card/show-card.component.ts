@@ -26,7 +26,6 @@ export class ShowCardComponent implements OnChanges {
   private updatePosterURL(): void {
     if (this.show && this.show.posterPath) {
       this.posterURL = `https://image.tmdb.org/t/p/w500${this.show.posterPath}`;
-      console.log('Updated Poster URL:', this.posterURL);
     } else {
       this.posterURL = '';
       console.log('No poster path available, no image URL set.');

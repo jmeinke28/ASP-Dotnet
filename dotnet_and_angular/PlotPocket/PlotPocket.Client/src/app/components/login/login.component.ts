@@ -31,9 +31,6 @@ export class LoginComponent {
 
   onSubmit(event: Event) {
     event.preventDefault(); 
-  
-    // Log when the submission starts
-    console.log('Login form submitted');
     
     // Trim form values
     const emailValue = this.email.value?.trim() || '';
@@ -44,12 +41,9 @@ export class LoginComponent {
       console.log('Form is invalid, stopping submission');
       return;
     }
-  
-    console.log('Form is valid, attempting to log in...');
-    
+      
     this._authService.login(emailValue, passwordValue).subscribe({
       next: (user: any) => {
-        console.log('Login successful:', user);
         this._authService.setUser(user);
         this._router.navigate(['/']);
       },
@@ -62,8 +56,6 @@ export class LoginComponent {
         console.log('Login request completed');
       }
     });
-  
-    console.log('Login attempt sent to the server...');
   }
   
 }  
