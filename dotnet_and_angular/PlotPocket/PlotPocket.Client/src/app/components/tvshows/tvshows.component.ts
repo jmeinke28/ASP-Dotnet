@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { TvshowsService } from '../../services/tvshows.service';
-import { Show } from '../../models/Show';
 import { forkJoin } from 'rxjs';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
-import { ShowCardComponent } from '../show-card/show-card.component';
 import { CommonModule } from '@angular/common';
+import { Show } from '../../models/Show';
 
 @Component({
   selector: 'app-tvshows',
   standalone: true,
-  imports: [SearchBarComponent, ShowCardComponent, CommonModule],
+  imports: [SearchBarComponent, CommonModule],
   templateUrl: './tvshows.component.html',
   styleUrls: ['./tvshows.component.css'],
 })
@@ -25,19 +24,30 @@ export class TvshowsComponent implements OnInit {
   constructor(private tvshowsService: TvshowsService) {}
 
   ngOnInit(): void {
-    // Fetch airing today, top rated, and popular TV shows in parallel
+    // Use forkJoin to fetch all the TV show categories in parallel
     forkJoin([
       this.tvshowsService.getAiringToday(),
       this.tvshowsService.getTopRated(),
       this.tvshowsService.getPopular(),
     ]).subscribe(
       ([airingToday, topRated, popular]) => {
-        console.log('TV shows fetched');
-        this.airingToday = airingToday.results;
-        this.topRated = topRated.results;
-        this.popular = popular.results;
-        this.updateAllTvShows(); // Update the allTvShows array with selected category data
-        this.isLoading = false;  // Set loading to false when data is fetched
+        // Log the raw API responses
+        console.log('Airing Today Raw Response:', airingToday);
+        console.log('Top Rated Raw Response:', topRated);
+        console.log('Popular Raw Response:', popular);
+  
+        // Now, proceed with checking and updating each category
+        this.airingToday = airingToday?.results || airingToday?.data?.results || [];
+        this.topRated = topRated?.results || topRated?.data?.results || [];
+        this.popular = popular?.results || popular?.data?.results || [];
+  
+        // Log the updated categories after assigning them
+        console.log('Updated Airing Today:', this.airingToday);
+        console.log('Updated Top Rated:', this.topRated);
+        console.log('Updated Popular:', this.popular);
+  
+        this.updateAllTvShows(); // Update the allTvShows array based on the selected category
+        this.isLoading = false; // Set loading to false when data is fetched
       },
       (error) => {
         console.error('Error fetching TV shows data:', error);
@@ -46,15 +56,12 @@ export class TvshowsComponent implements OnInit {
       }
     );
   }
+  
 
   // Update the allTvShows array based on the selected category
   updateAllTvShows(): void {
     if (this.selectedCategory === 'all') {
-      this.allTvShows = [
-        ...this.airingToday,
-        ...this.topRated,
-        ...this.popular,
-      ];
+      this.allTvShows = [...this.airingToday, ...this.topRated, ...this.popular];
     } else if (this.selectedCategory === 'airing') {
       this.allTvShows = this.airingToday;
     } else if (this.selectedCategory === 'top-rated') {
@@ -64,9 +71,14 @@ export class TvshowsComponent implements OnInit {
     }
   }
 
-  // Change category to filter TV shows
   changeCategory(category: string): void {
     this.selectedCategory = category;
-    this.updateAllTvShows();
+    this.updateAllTvShows(); // Update the allTvShows array based on the selected category
+  }
+
+  toggleBookmark(show: Show): void {
+    if (!show) return;
+    show.isBookmarked = !show.isBookmarked;
+    console.log('Bookmark status changed for show:', show.title, show.isBookmarked);
   }
 }

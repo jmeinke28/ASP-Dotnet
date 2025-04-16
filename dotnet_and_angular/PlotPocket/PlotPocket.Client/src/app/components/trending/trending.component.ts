@@ -9,7 +9,7 @@ import { Show } from '../../models/Show';
 @Component({
   selector: 'app-trending',
   standalone: true,
-  imports: [SearchBarComponent, ShowCardComponent, CommonModule],
+  imports: [SearchBarComponent, CommonModule],
   templateUrl: './trending.component.html',
   styleUrls: ['./trending.component.css']
 })

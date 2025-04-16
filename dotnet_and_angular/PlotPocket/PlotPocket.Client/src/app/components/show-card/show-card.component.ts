@@ -19,6 +19,9 @@ export class ShowCardComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     // Check if show or show.posterPath has changed
     if (changes['show']) {
+      console.log('Show object:', this.show); // Log entire show object
+      console.log('Poster Path:', this.show?.posterPath); // Log the poster path value
+
       this.updatePosterURL();
     }
   }

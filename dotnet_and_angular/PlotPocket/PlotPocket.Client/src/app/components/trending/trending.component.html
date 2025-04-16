@@ -34,6 +34,7 @@
     <h2 class="text-2xl font-bold text-white mb-4 mt-8">
       Trending {{ selectedCategory === 'all' ? 'Movies & TV Shows' : selectedCategory === 'movies' ? 'Movies' : 'TV Shows' }}
     </h2>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div
         *ngFor="let show of allTrending"
@@ -85,16 +86,11 @@
 
         <!-- Content section -->
         <div class="flex flex-col flex-grow p-4">
-          <div class="mb-2 flex justify-between items-center">
-            <div class="flex-grow">
-              <p class="text-white text-xl font-semibold truncate">{{ show.title }}</p>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between mt-auto">
-            <div class="flex items-center">
-              <p class="text-white text-sm ml-1">{{ show.type }}</p>
-            </div>
+          <div class="mb-2">
+            <p class="text-white text-xl font-semibold truncate">{{ show.title }}</p>
+            <p class="text-gray-400 text-sm mt-1">
+              {{ show.date | date: 'longDate' }}
+            </p>
           </div>
         </div>
       </div>

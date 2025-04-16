@@ -33,7 +33,7 @@ namespace PlotPocket.Server.Controllers
             var showList = shows
                 .Results.Select(x => _showService.MediaItemToShowDto(x, user))
                 .ToList();
-            return Ok(shows);
+            return Ok(showList); // Return transformed list instead of raw shows
         }
 
         [HttpGet("top-rated")]
@@ -44,7 +44,7 @@ namespace PlotPocket.Server.Controllers
             var showList = shows
                 .Results.Select(x => _showService.MediaItemToShowDto(x, user))
                 .ToList();
-            return Ok(shows);
+            return Ok(showList); // Return transformed list instead of raw shows
         }
 
         [HttpGet("popular")]
@@ -55,7 +55,7 @@ namespace PlotPocket.Server.Controllers
             var showList = shows
                 .Results.Select(x => _showService.MediaItemToShowDto(x, user))
                 .ToList();
-            return Ok(shows);
+            return Ok(showList); // Return transformed list instead of raw shows
         }
     }
 }

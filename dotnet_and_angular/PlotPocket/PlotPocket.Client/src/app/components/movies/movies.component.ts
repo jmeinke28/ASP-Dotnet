@@ -7,7 +7,7 @@ import { ShowCardComponent } from "../show-card/show-card.component";
 @Component({
   selector: 'app-movies',
   standalone: true,
-  imports: [SearchBarComponent, CommonModule, ShowCardComponent],
+  imports: [SearchBarComponent, CommonModule],
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.css'],
 })
@@ -29,10 +29,12 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getNowPlayingMovies().subscribe(
       (data) => {
+        console.log('Now Playing Movies:', data); // Debugging log
         this.movies = data.results.map((movie: any) => ({
           ...movie,
           isBookmarked: false, // Initialize bookmark state
-          type: 'Movie' // Type field for consistency
+          type: 'Movie', // Type field for consistency
+          release_date: movie.release_date // Ensure release date is part of the movie object
         }));
         this.isLoading = false;
       },
@@ -49,11 +51,12 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getTopRatedMovies().subscribe(
       (data) => {
-        console.log('Top Rated Response:', data);
+        console.log('Top Rated Movies:', data); // Debugging log
         this.movies = data.results.map((movie: any) => ({
           ...movie,
           isBookmarked: false, // Initialize bookmark state
-          type: 'Movie' // Type field for consistency
+          type: 'Movie', // Type field for consistency
+          release_date: movie.release_date // Ensure release date is part of the movie object
         }));
         this.isLoading = false;
       },
@@ -70,10 +73,12 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getPopularMovies().subscribe(
       (data) => {
+        console.log('Popular Movies:', data); // Debugging log
         this.movies = data.results.map((movie: any) => ({
           ...movie,
           isBookmarked: false, // Initialize bookmark state
-          type: 'Movie' // Type field for consistency
+          type: 'Movie', // Type field for consistency
+          release_date: movie.release_date // Ensure release date is part of the movie object
         }));
         this.isLoading = false;
       },
@@ -98,5 +103,10 @@ export class MoviesComponent implements OnInit {
   toggleBookmark(movie: any): void {
     movie.isBookmarked = !movie.isBookmarked;
     console.log(`${movie.title} bookmark status: ${movie.isBookmarked}`);
+  }
+
+  logImageUrl(movie: any): void {
+    const imageUrl = movie.poster_path ? 'https://image.tmdb.org/t/p/w500' + movie.poster_path : 'No poster available';
+    console.log(`Image URL for movie "${movie.title}": ${imageUrl}`);
   }
 }

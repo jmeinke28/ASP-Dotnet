@@ -44,6 +44,8 @@
             class="w-full"
             [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
             alt="{{ movie.title }}"
+            (load)="logImageUrl(movie)"
+            (error)="logImageUrl(movie)"
           />
 
           <!-- Bookmark icon -->
@@ -89,11 +91,7 @@
             </div>
           </div>
 
-          <div class="flex items-center justify-between mt-auto">
-            <div class="flex items-center">
-              <p class="text-white text-sm ml-1">{{ movie.type }}</p>
-            </div>
-          </div>
+          <p class="text-white text-sm mb-2">{{ movie.release_date | date:'mediumDate' }}</p>
         </div>
       </div>
     </div>

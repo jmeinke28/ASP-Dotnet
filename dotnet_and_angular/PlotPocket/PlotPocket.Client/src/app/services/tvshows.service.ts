@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class TvshowsService {
-  private baseUrl = '/api/tv'; // Ensure this matches the backend route for TV shows
+  private baseUrl = '/api/tvshows'; // Ensure this matches the backend route for TV shows
 
   constructor(private http: HttpClient) {}
 

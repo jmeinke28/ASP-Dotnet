@@ -30,44 +30,35 @@
   <div *ngIf="isLoading" class="text-center text-white mt-4">Loading...</div>
   <div *ngIf="errorMessage" class="text-red-600 text-center mt-4">{{ errorMessage }}</div>
 
-  <!-- Content Display -->
+  <!-- TV Shows Display -->
   <div *ngIf="!isLoading && !errorMessage">
-    <!-- Airing Today Section -->
-    <div *ngIf="selectedCategory === 'airing'" class="p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">Airing Today</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <ng-container *ngFor="let show of airingToday">
-          <app-show-card *ngIf="show" [show]="show" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
-            <img [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath" alt="{{ show.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-semibold text-center mt-2">{{ show.title }}</h3>
-          </app-show-card>
-        </ng-container>
-      </div>
-    </div>
+    <h2 class="text-2xl font-bold text-white mb-4 mt-8">
+      {{ selectedCategory === 'airing' ? 'Airing Today' : selectedCategory === 'top-rated' ? 'Top Rated' : 'Popular' }}
+    </h2>
 
-    <!-- Top Rated Section -->
-    <div *ngIf="selectedCategory === 'top-rated'" class="p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">Top Rated</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <ng-container *ngFor="let show of topRated">
-          <app-show-card *ngIf="show" [show]="show" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
-            <img [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath" alt="{{ show.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-semibold text-center mt-2">{{ show.title }}</h3>
-          </app-show-card>
-        </ng-container>
-      </div>
-    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div
+        *ngFor="let show of selectedCategory === 'airing' ? airingToday : selectedCategory === 'top-rated' ? topRated : popular"
+        class="flex flex-col bg-slate-900 shadow-md rounded-lg overflow-hidden"
+      >
+        <!-- Image section -->
+        <div class="relative w-full flex-shrink-0">
+          <img
+            *ngIf="show.posterPath"
+            class="w-full h-[420px] object-cover"
+            [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath"
+            alt="{{ show.title }}"
+          />
+          <div *ngIf="!show.posterPath" class="w-full h-[420px] bg-gray-700 flex items-center justify-center">
+            <span class="text-gray-400">No Image Available</span>
+          </div>
+        </div>
 
-    <!-- Popular Section -->
-    <div *ngIf="selectedCategory === 'popular'" class="p-6">
-      <h2 class="text-2xl font-bold text-white mb-4">Popular</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        <ng-container *ngFor="let show of popular">
-          <app-show-card *ngIf="show" [show]="show" class="w-full bg-gray-800 text-white p-4 rounded-lg shadow-lg overflow-hidden">
-            <img [src]="'https://image.tmdb.org/t/p/w500' + show.posterPath" alt="{{ show.title }}" class="w-full h-[420px] object-cover rounded-md mb-2" />
-            <h3 class="text-xl font-semibold text-center mt-2">{{ show.title }}</h3>
-          </app-show-card>
-        </ng-container>
+        <!-- Content section -->
+        <div class="flex flex-col p-4">
+          <p class="text-white text-xl font-semibold truncate">{{ show.title }}</p>
+          <p class="text-gray-400 text-sm mt-1">{{ show.date | date: 'longDate' }}</p>
+        </div>
       </div>
     </div>
   </div>
