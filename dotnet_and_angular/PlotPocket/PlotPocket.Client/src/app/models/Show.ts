@@ -5,5 +5,5 @@ export interface Show {
   date: string;
   type: string; 
   isBookmarked: boolean;
-  mediaType?: 'movie' | 'tv';
+  mediaType?: 'movie' | 'tvshow';
 }
