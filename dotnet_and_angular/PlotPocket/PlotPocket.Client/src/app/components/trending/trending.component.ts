@@ -33,8 +33,8 @@ export class TrendingComponent implements OnInit {
         console.log('Trending movies and TV shows fetched');
         this.trendingMovies = movies;
         this.trendingTVShows = tvShows;
-        this.updateAllTrending(); // Initialize allTrending with the default 'all' category
-        this.isLoading = false;   // Set loading to false when data is fetched
+        this.updateAllTrending();  // Update the allTrending array with both movies and TV shows
+        this.isLoading = false;    // Set loading to false when data is fetched
       },
       (error) => {
         console.error('Error fetching trending data:', error);
@@ -55,10 +55,9 @@ export class TrendingComponent implements OnInit {
     }
   }
 
-  // Change the category and update the list of trending items
   changeCategory(category: string): void {
     this.selectedCategory = category;
-    this.updateAllTrending(); // Re-update the trending list when category changes
+    this.updateAllTrending();  // Update the allTrending array based on the selected category
   }
 
   toggleBookmark(show: Show): void {
