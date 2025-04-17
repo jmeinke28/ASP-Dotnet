@@ -2,7 +2,6 @@
   <div class="flex flex-col items-center gap-4">
     <app-search-bar class="w-2/3" (searchEvent)="onSearch($event)"></app-search-bar>
 
-    <!-- Category Buttons -->
     <div class="flex gap-3 mt-4">
       <button
         class="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors duration-200"
@@ -25,11 +24,9 @@
     </div>
   </div>
 
-  <!-- Loading or Error Message -->
   <div *ngIf="isLoading" class="text-center text-white mt-4">Loading...</div>
   <div *ngIf="errorMessage" class="text-red-600 text-center mt-4">{{ errorMessage }}</div>
 
-  <!-- Movies Display -->
   <div *ngIf="!isLoading && !errorMessage">
     <h2 class="text-2xl font-bold text-white mb-4 mt-8">Movies</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -37,7 +34,6 @@
         *ngFor="let movie of movies"
         class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden"
       >
-        <!-- Image section -->
         <div class="relative w-full flex-shrink-0">
           <img
             *ngIf="movie.poster_path"
@@ -46,7 +42,6 @@
             alt="{{ movie.title }}"
           />
 
-          <!-- Bookmark icon -->
           <div
             class="absolute top-2 right-2 w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
             (click)="toggleBookmark(movie)"
@@ -81,7 +76,6 @@
           </div>
         </div>
 
-        <!-- Content section -->
         <div class="flex flex-col flex-grow p-4">
           <div class="mb-2 flex justify-between items-center">
             <div class="flex-grow">

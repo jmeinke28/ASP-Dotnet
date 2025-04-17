@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MoviesService } from '../../services/movies.service';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { CommonModule } from '@angular/common';
-import { ShowCardComponent } from "../show-card/show-card.component";
+import { BookmarksService } from '../../services/bookmarks.service';
 
 @Component({
   selector: 'app-movies',
@@ -13,12 +13,12 @@ import { ShowCardComponent } from "../show-card/show-card.component";
 })
 export class MoviesComponent implements OnInit {
   movies: any[] = [];
-  allMovies: any[] = []; 
+  allMovies: any[] = [];
   isLoading = true;
   errorMessage: string = '';
   selectedCategory: string = 'now_playing';
 
-  constructor(private moviesService: MoviesService) {}
+  constructor(private moviesService: MoviesService, private bookmarksService: BookmarksService) {}
 
   ngOnInit() {
     this.getNowPlayingMovies();
@@ -32,9 +32,9 @@ export class MoviesComponent implements OnInit {
       (data) => {
         const processedMovies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false,
+          isBookmarked: this.bookmarksService.isBookmarked(movie),
           type: 'Movie',
-          release_date: movie.release_date
+          release_date: movie.release_date,
         }));
         this.movies = processedMovies;
         this.allMovies = processedMovies;
@@ -55,9 +55,9 @@ export class MoviesComponent implements OnInit {
       (data) => {
         const processedMovies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false,
+          isBookmarked: this.bookmarksService.isBookmarked(movie),
           type: 'Movie',
-          release_date: movie.release_date
+          release_date: movie.release_date,
         }));
         this.movies = processedMovies;
         this.allMovies = processedMovies;
@@ -78,9 +78,9 @@ export class MoviesComponent implements OnInit {
       (data) => {
         const processedMovies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false,
+          isBookmarked: this.bookmarksService.isBookmarked(movie),
           type: 'Movie',
-          release_date: movie.release_date
+          release_date: movie.release_date,
         }));
         this.movies = processedMovies;
         this.allMovies = processedMovies;
@@ -104,7 +104,6 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-  // Add this method to handle search query from the search bar
   onSearch(query: string): void {
     const lowerQuery = query.toLowerCase();
     this.movies = this.allMovies.filter(movie =>
@@ -113,7 +112,11 @@ export class MoviesComponent implements OnInit {
   }
 
   toggleBookmark(movie: any): void {
+    if (movie.isBookmarked) {
+      this.bookmarksService.removeBookmark(movie);
+    } else {
+      this.bookmarksService.addBookmark(movie);
+    }
     movie.isBookmarked = !movie.isBookmarked;
-    console.log(`${movie.title} bookmark status: ${movie.isBookmarked}`);
   }
 }

@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { TvshowsService } from '../../services/tvshows.service';
-import { forkJoin } from 'rxjs';
-import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { BookmarksService } from '../../services/bookmarks.service';
 import { CommonModule } from '@angular/common';
 import { Show } from '../../models/Show';
+import { forkJoin } from 'rxjs';
+import { SearchBarComponent } from "../search-bar/search-bar.component";
 
 @Component({
   selector: 'app-tvshows',
   standalone: true,
-  imports: [SearchBarComponent, CommonModule],
+  imports: [CommonModule, SearchBarComponent],
   templateUrl: './tvshows.component.html',
   styleUrls: ['./tvshows.component.css'],
 })
@@ -18,13 +19,15 @@ export class TvshowsComponent implements OnInit {
   popular: Show[] = [];
   allTvShows: Show[] = [];
   filteredTvShows: Show[] = [];
-
   isLoading = true;
   errorMessage: string | null = null;
   selectedCategory: string = 'all';
   searchQuery: string = '';
 
-  constructor(private tvshowsService: TvshowsService) {}
+  constructor(
+    private tvshowsService: TvshowsService,
+    private bookmarksService: BookmarksService 
+  ) {}
 
   ngOnInit(): void {
     forkJoin([
@@ -36,7 +39,6 @@ export class TvshowsComponent implements OnInit {
         this.airingToday = airingToday || [];
         this.topRated = topRated || [];
         this.popular = popular || [];
-
         this.updateAllTvShows();
         this.applySearchFilter();
         this.isLoading = false;
@@ -64,7 +66,7 @@ export class TvshowsComponent implements OnInit {
 
   changeCategory(category: string): void {
     this.selectedCategory = category;
-    this.searchQuery = ''; // reset search
+    this.searchQuery = ''; 
     this.updateAllTvShows();
   }
 
@@ -86,7 +88,15 @@ export class TvshowsComponent implements OnInit {
 
   toggleBookmark(show: Show): void {
     if (!show) return;
+
     show.isBookmarked = !show.isBookmarked;
+
+    if (show.isBookmarked) {
+      this.bookmarksService.addBookmark(show);
+    } else {
+      this.bookmarksService.removeBookmark(show);
+    }
+
     console.log('Bookmark status changed for show:', show.title, show.isBookmarked);
   }
 }

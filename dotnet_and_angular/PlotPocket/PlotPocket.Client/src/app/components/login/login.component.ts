@@ -32,11 +32,9 @@ export class LoginComponent {
   onSubmit(event: Event) {
     event.preventDefault(); 
     
-    // Trim form values
     const emailValue = this.email.value?.trim() || '';
     const passwordValue = this.password.value?.trim() || '';
   
-    // Check if the form is valid
     if (this.form.invalid) {
       console.log('Form is invalid, stopping submission');
       return;

@@ -1,7 +1,5 @@
 <div class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden">
-  <!-- Image section -->
   <div class="relative w-full flex-shrink-0">
-    <!-- Conditionally display image if posterPath exists -->
     <img
       *ngIf="show?.posterPath"
       class="w-full"
@@ -9,12 +7,10 @@
       alt="Show poster"
     />
 
-    <!-- Bookmark icon -->
     <div
       class="absolute top-2 right-2 w-12 h-12 bg-gray-500 rounded-full flex items-center justify-center cursor-pointer"
       (click)="toggleBookmark()"
     >
-      <!-- Bookmark SVG: If not bookmarked, show outline; if bookmarked, show filled -->
       <svg
         *ngIf="!show?.isBookmarked"
         width="22"
@@ -46,18 +42,15 @@
     </div>
   </div>
 
-  <!-- Content section -->
   <div class="flex flex-col flex-grow p-4">
     <div class="mb-2 flex justify-between items-center">
       <div class="flex-grow">
-        <!-- Show Title -->
         <p class="text-white text-xl font-semibold truncate">{{ show?.title }}</p>
       </div>
     </div>
 
     <div class="flex items-center justify-between mt-auto">
       <div class="flex items-center">
-        <!-- Show Type -->
         <p class="text-white text-sm ml-1">{{ show?.type }}</p>
       </div>
     </div>

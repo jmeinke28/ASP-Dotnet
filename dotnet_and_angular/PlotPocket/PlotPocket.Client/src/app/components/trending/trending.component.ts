@@ -17,11 +17,11 @@ export class TrendingComponent implements OnInit {
   trendingMovies: any[] = [];
   trendingTVShows: any[] = [];
   allTrending: any[] = [];
-  filteredTrending: any[] = [];  // Store the filtered list
+  filteredTrending: any[] = [];  
   isLoading = true;
   errorMessage: string | null = null;
-  selectedCategory: string = 'all'; // Default category
-  searchQuery: string = ''; // Store the search query
+  selectedCategory: string = 'all';
+  searchQuery: string = ''; 
 
   constructor(private trendingService: TrendingService,  private bookmarksService: BookmarksService) {}
 
@@ -34,7 +34,7 @@ export class TrendingComponent implements OnInit {
         console.log('Trending movies and TV shows fetched');
         this.trendingMovies = movies;
         this.trendingTVShows = tvShows;
-        this.updateAllTrending();  // Update the allTrending array
+        this.updateAllTrending(); 
         this.isLoading = false;
       },
       (error) => {
@@ -45,7 +45,6 @@ export class TrendingComponent implements OnInit {
     );
   }
 
-  // Update the allTrending array based on selected category and search query
   updateAllTrending(): void {
     let combined = [];
     if (this.selectedCategory === 'all') {
@@ -56,18 +55,15 @@ export class TrendingComponent implements OnInit {
       combined = this.trendingTVShows;
     }
   
-    // Sync bookmark status
     combined.forEach(show => {
       show.isBookmarked = this.bookmarksService.isBookmarked(show);
     });
   
-    // Filter based on the search query
     if (this.searchQuery) {
       this.filteredTrending = combined.filter(show =>
         show.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     } else {
-      // Reset filteredTrending to the full list when the search query is empty
       this.filteredTrending = combined;
     }
   }
@@ -75,17 +71,15 @@ export class TrendingComponent implements OnInit {
 
   changeCategory(category: string): void {
     this.selectedCategory = category;
-    this.searchQuery = ''; // Reset search query when category changes
-    this.updateAllTrending();  // Update the allTrending array based on the selected category
+    this.searchQuery = ''; 
+    this.updateAllTrending();  
   }
 
   toggleBookmark(show: Show): void {
     if (!show) return;
   
-    // Toggle bookmark status
     show.isBookmarked = !show.isBookmarked;
   
-    // Add or remove bookmark from service
     if (show.isBookmarked) {
       this.bookmarksService.addBookmark(show);
     } else {
@@ -97,7 +91,7 @@ export class TrendingComponent implements OnInit {
   
 
   onSearch(query: string): void {
-    this.searchQuery = query;  // Set the search query
-    this.updateAllTrending();  // Re-run the update method to filter based on the search
+    this.searchQuery = query; 
+    this.updateAllTrending(); 
   }
 }

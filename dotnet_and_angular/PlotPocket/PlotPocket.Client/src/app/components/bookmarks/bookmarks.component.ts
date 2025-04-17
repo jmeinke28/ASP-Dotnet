@@ -9,7 +9,7 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
   standalone: true,
   imports: [SearchBarComponent, CommonModule],
   templateUrl: './bookmarks.component.html',
-  styleUrl: './bookmarks.component.css',
+  styleUrls: ['./bookmarks.component.css'],
 })
 export class BookmarksComponent implements OnInit {
   bookmarkedShows: Show[] = [];
@@ -17,15 +17,15 @@ export class BookmarksComponent implements OnInit {
   constructor(private bookmarksService: BookmarksService) {}
 
   ngOnInit(): void {
-    this.bookmarkedShows = this.bookmarksService.getBookmarks() as Show[];  }
+    this.bookmarkedShows = this.bookmarksService.getBookmarks() as Show[];
+    console.log(this.bookmarkedShows);  
+  }
 
   toggleBookmark(show: Show): void {
     if (!show) return;
 
-    // Toggle bookmark status
     show.isBookmarked = !show.isBookmarked;
 
-    // Remove bookmark from service
     if (show.isBookmarked) {
       this.bookmarksService.addBookmark(show);
     } else {
