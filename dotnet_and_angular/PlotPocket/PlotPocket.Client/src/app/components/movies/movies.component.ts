@@ -13,9 +13,10 @@ import { ShowCardComponent } from "../show-card/show-card.component";
 })
 export class MoviesComponent implements OnInit {
   movies: any[] = [];
+  allMovies: any[] = []; // Store full results
   isLoading = true;
   errorMessage: string = '';
-  selectedCategory: string = 'now_playing'; // Default category
+  selectedCategory: string = 'now_playing';
 
   constructor(private moviesService: MoviesService) {}
 
@@ -29,12 +30,14 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getNowPlayingMovies().subscribe(
       (data) => {
-        this.movies = data.results.map((movie: any) => ({
+        const processedMovies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false, // Initialize bookmark state
-          type: 'Movie', // Type field for consistency
-          release_date: movie.release_date // Ensure release date is part of the movie object
+          isBookmarked: false,
+          type: 'Movie',
+          release_date: movie.release_date
         }));
+        this.movies = processedMovies;
+        this.allMovies = processedMovies;
         this.isLoading = false;
       },
       (error) => {
@@ -50,12 +53,14 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getTopRatedMovies().subscribe(
       (data) => {
-        this.movies = data.results.map((movie: any) => ({
+        const processedMovies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false, // Initialize bookmark state
-          type: 'Movie', // Type field for consistency
-          release_date: movie.release_date // Ensure release date is part of the movie object
+          isBookmarked: false,
+          type: 'Movie',
+          release_date: movie.release_date
         }));
+        this.movies = processedMovies;
+        this.allMovies = processedMovies;
         this.isLoading = false;
       },
       (error) => {
@@ -71,12 +76,14 @@ export class MoviesComponent implements OnInit {
 
     this.moviesService.getPopularMovies().subscribe(
       (data) => {
-        this.movies = data.results.map((movie: any) => ({
+        const processedMovies = data.results.map((movie: any) => ({
           ...movie,
-          isBookmarked: false, // Initialize bookmark state
-          type: 'Movie', // Type field for consistency
-          release_date: movie.release_date // Ensure release date is part of the movie object
+          isBookmarked: false,
+          type: 'Movie',
+          release_date: movie.release_date
         }));
+        this.movies = processedMovies;
+        this.allMovies = processedMovies;
         this.isLoading = false;
       },
       (error) => {
@@ -95,6 +102,14 @@ export class MoviesComponent implements OnInit {
     } else if (category === 'popular') {
       this.getPopularMovies();
     }
+  }
+
+  // Add this method to handle search query from the search bar
+  onSearch(query: string): void {
+    const lowerQuery = query.toLowerCase();
+    this.movies = this.allMovies.filter(movie =>
+      movie.title?.toLowerCase().includes(lowerQuery)
+    );
   }
 
   toggleBookmark(movie: any): void {

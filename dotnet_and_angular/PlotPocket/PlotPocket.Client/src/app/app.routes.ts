@@ -6,7 +6,6 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { TrendingComponent } from './components/trending/trending.component';
 import { TvshowsComponent } from './components/tvshows/tvshows.component';
 import { MoviesComponent } from './components/movies/movies.component';
-import { ShowsComponent } from './components/shows/shows.component';
 import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 
 export const routes: Routes = [
@@ -16,7 +15,6 @@ export const routes: Routes = [
   { path: 'media/trending', component: TrendingComponent },
   { path: 'media/tv-shows', component: TvshowsComponent },
   { path: 'media/movies', component: MoviesComponent },
-  { path: 'media/shows', component: ShowsComponent },
   { path: 'bookmarks', component: BookmarksComponent },
   { path: '**', component: PageNotFoundComponent },
 ];

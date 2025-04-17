@@ -14,11 +14,11 @@
     />
   </svg>
   <input
-    [(ngModel)]="searchQuery"
-    (ngModelChange)="search()"
-    name="searchQuery"
     type="text"
-    placeholder="{{ placeHolder }}"
-    class="bg-gray-800 text-white placeholder-gray-400 outline-none flex-1"
+    [(ngModel)]="searchQuery"
+    name="searchQuery"  
+    [placeholder]="placeHolder"
+    (keyup.enter)="search()"
+    class="w-full p-2 rounded"
   />
 </form>

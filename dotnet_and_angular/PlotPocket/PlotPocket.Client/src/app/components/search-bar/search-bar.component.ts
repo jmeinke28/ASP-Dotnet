@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -10,10 +10,12 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./search-bar.component.css'],
 })
 export class SearchBarComponent {
+  @Output() searchEvent = new EventEmitter<string>();
+
   searchQuery: string = '';
-  placeHolder: string = 'Search...'; // Default placeholder text
+  placeHolder: string = 'Search...';
 
   search() {
-    console.log('Search query:', this.searchQuery);
+    this.searchEvent.emit(this.searchQuery);
   }
 }

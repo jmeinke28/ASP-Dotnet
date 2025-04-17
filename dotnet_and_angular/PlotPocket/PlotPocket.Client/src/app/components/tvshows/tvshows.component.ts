@@ -17,9 +17,12 @@ export class TvshowsComponent implements OnInit {
   topRated: Show[] = [];
   popular: Show[] = [];
   allTvShows: Show[] = [];
+  filteredTvShows: Show[] = [];
+
   isLoading = true;
   errorMessage: string | null = null;
-  selectedCategory: string = 'all'; // Default category
+  selectedCategory: string = 'all';
+  searchQuery: string = '';
 
   constructor(private tvshowsService: TvshowsService) {}
 
@@ -30,15 +33,13 @@ export class TvshowsComponent implements OnInit {
       this.tvshowsService.getPopular(),
     ]).subscribe(
       ([airingToday, topRated, popular]) => {
-        
-        // Directly assigning the fetched arrays
         this.airingToday = airingToday || [];
         this.topRated = topRated || [];
         this.popular = popular || [];
 
-        this.updateAllTvShows(); // Update the allTvShows array based on the selected category
-        this.isLoading = false; // Set loading to false when data is fetched
-        console.log('Loading finished');
+        this.updateAllTvShows();
+        this.applySearchFilter();
+        this.isLoading = false;
       },
       (error) => {
         console.error('Error fetching TV shows data:', error);
@@ -49,7 +50,6 @@ export class TvshowsComponent implements OnInit {
   }
 
   updateAllTvShows(): void {
-  
     if (this.selectedCategory === 'all') {
       this.allTvShows = [...this.airingToday, ...this.topRated, ...this.popular];
     } else if (this.selectedCategory === 'airing') {
@@ -59,16 +59,29 @@ export class TvshowsComponent implements OnInit {
     } else if (this.selectedCategory === 'popular') {
       this.allTvShows = this.popular;
     }
+    this.applySearchFilter();
   }
 
   changeCategory(category: string): void {
     this.selectedCategory = category;
-    console.log('Category changed to:', 
-      category === 'airing' ? 'Airing Today' : 
-      category === 'top-rated' ? 'Top Rated' : 
-      category === 'popular' ? 'Popular' : category);
+    this.searchQuery = ''; // reset search
+    this.updateAllTvShows();
+  }
 
-    this.updateAllTvShows(); // Update TV shows when category changes
+  onSearch(query: string): void {
+    this.searchQuery = query.trim().toLowerCase();
+    this.applySearchFilter();
+  }
+
+  applySearchFilter(): void {
+    if (!this.searchQuery) {
+      this.filteredTvShows = this.allTvShows;
+    } else {
+      const allShows = [...this.airingToday, ...this.topRated, ...this.popular];
+      this.filteredTvShows = allShows.filter((show) =>
+        show.title?.toLowerCase().includes(this.searchQuery)
+      );
+    }
   }
 
   toggleBookmark(show: Show): void {

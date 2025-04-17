@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 mt-12">
   <div class="flex flex-col items-center gap-4">
-    <app-search-bar class="w-2/3"></app-search-bar>
+    <app-search-bar class="w-2/3" (searchEvent)="onSearch($event)"></app-search-bar>
 
     <!-- Category Buttons -->
     <div class="flex gap-3 mt-4">

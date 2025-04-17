@@ -1,6 +1,6 @@
 <div class="container mx-auto px-4 mt-12">
   <div class="flex flex-col items-center gap-4">
-    <app-search-bar class="w-2/3"></app-search-bar>
+    <app-search-bar class="w-2/3" (searchEvent)="onSearch($event)"></app-search-bar>
 
     <!-- Category Buttons -->
     <div class="flex gap-3 mt-4">
@@ -37,7 +37,7 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <div
-        *ngFor="let show of allTrending"
+        *ngFor="let show of filteredTrending"
         class="flex flex-col bg-slate-900 shadow-lg rounded-lg overflow-hidden"
       >
         <!-- Image section -->
