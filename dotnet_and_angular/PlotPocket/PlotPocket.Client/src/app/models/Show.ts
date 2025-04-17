@@ -1,5 +1,6 @@
 export interface Show {
   id: number;
+  showApiId: number;
   title: string;
   posterPath: string;
   date: string;
