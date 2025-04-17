@@ -13,7 +13,7 @@ import { ShowCardComponent } from "../show-card/show-card.component";
 })
 export class MoviesComponent implements OnInit {
   movies: any[] = [];
-  allMovies: any[] = []; // Store full results
+  allMovies: any[] = []; 
   isLoading = true;
   errorMessage: string = '';
   selectedCategory: string = 'now_playing';

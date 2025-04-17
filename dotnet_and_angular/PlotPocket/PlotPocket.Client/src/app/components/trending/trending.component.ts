@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrendingService } from '../../services/trending.service';
 import { forkJoin } from 'rxjs';
+import { BookmarksService } from '../../services/bookmarks.service';
 import { Show } from '../../models/Show';
 import { SearchBarComponent } from '../search-bar/search-bar.component';
 import { CommonModule } from '@angular/common';
@@ -22,7 +23,7 @@ export class TrendingComponent implements OnInit {
   selectedCategory: string = 'all'; // Default category
   searchQuery: string = ''; // Store the search query
 
-  constructor(private trendingService: TrendingService) {}
+  constructor(private trendingService: TrendingService,  private bookmarksService: BookmarksService) {}
 
   ngOnInit(): void {
     forkJoin([
@@ -54,7 +55,12 @@ export class TrendingComponent implements OnInit {
     } else if (this.selectedCategory === 'tv') {
       combined = this.trendingTVShows;
     }
-
+  
+    // Sync bookmark status
+    combined.forEach(show => {
+      show.isBookmarked = this.bookmarksService.isBookmarked(show);
+    });
+  
     // Filter based on the search query
     if (this.searchQuery) {
       this.filteredTrending = combined.filter(show =>
@@ -65,6 +71,7 @@ export class TrendingComponent implements OnInit {
       this.filteredTrending = combined;
     }
   }
+  
 
   changeCategory(category: string): void {
     this.selectedCategory = category;
@@ -74,9 +81,20 @@ export class TrendingComponent implements OnInit {
 
   toggleBookmark(show: Show): void {
     if (!show) return;
+  
+    // Toggle bookmark status
     show.isBookmarked = !show.isBookmarked;
+  
+    // Add or remove bookmark from service
+    if (show.isBookmarked) {
+      this.bookmarksService.addBookmark(show);
+    } else {
+      this.bookmarksService.removeBookmark(show);
+    }
+  
     console.log('Bookmark status changed for show:', show.title, show.isBookmarked);
   }
+  
 
   onSearch(query: string): void {
     this.searchQuery = query;  // Set the search query
