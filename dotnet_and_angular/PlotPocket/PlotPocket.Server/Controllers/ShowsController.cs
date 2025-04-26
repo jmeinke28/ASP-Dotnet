@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,8 @@ namespace PlotPocket.Server.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
+            Console.WriteLine(JsonSerializer.Serialize(user));
+
             if (user == null)
             {
                 return NotFound();
@@ -47,6 +50,7 @@ namespace PlotPocket.Server.Controllers
             if (existingShow != null)
             {
                 if (!user.Shows.Contains(existingShow))
+                // if (await _context.Shows.ContainsAsync(s => s.Users.Any(u => u.Id == user.Id) ))
                 {
                     user.Shows.Add(existingShow);
                     await _context.SaveChangesAsync();
