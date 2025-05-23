@@ -7,9 +7,7 @@ namespace WordGame.Server.Data;
 public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
-    }
+        : base(options) { }
 
     public DbSet<Game> Games { get; set; }
 
